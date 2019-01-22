@@ -55,9 +55,7 @@ class Food extends Agent {
     this.ty += 0.01;
   }
   else {
-    this.x = random(width);
-    this.y = random(height);
-    this.size = random(this.minSize, this.maxSize);
+    this.reset();
     this.active = true;
   }
 }
@@ -70,5 +68,6 @@ class Food extends Agent {
     this.x = random(0,width);
     this.y = random(0,height);
     this.size = random(this.minSize,this.maxSize);
+    this.color = color(random(100,255),random(100,255),random(100,255));
   }
 }

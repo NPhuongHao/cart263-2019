@@ -52,6 +52,10 @@ class Avatar extends Agent {
     // If the size reaches zero, set to inactive
     if (this.size === 0) {
       this.active = false;
+      console.log("GAME OVER!");
     }
+
   }
+  
+
 }

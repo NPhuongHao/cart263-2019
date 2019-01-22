@@ -52,6 +52,12 @@ function setup() {
 // Display the avatar and food
 
 function draw() {
+
+  //Don't run if the avatar has disappeared
+  if(!avatar.active) {
+    return;
+  }
+
   background(0);
 
   avatar.update();

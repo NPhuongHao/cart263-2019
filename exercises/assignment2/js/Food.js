@@ -29,7 +29,9 @@ class Food extends Agent {
   //Set x and y velocity based on tx and ty
   //Make the food able to warp itself to the other side of the screen when it crosses the canvas' borders
   update() {
-  if (this.active == true) {
+    if (!this.active) {
+      return;
+    }
     //set up random velocities based on perlin noise
     this.vx = map(noise(this.tx), 0, 1, -this.maxSpeed, this.maxSpeed);
     this.vy = map(noise(this.ty), 0, 1, -this.maxSpeed, this.maxSpeed);
@@ -53,11 +55,6 @@ class Food extends Agent {
     //update the noise parameters (the greater the margin, the more erratic the movement)
     this.tx += 0.01;
     this.ty += 0.01;
-  }
-  else {
-    this.reset();
-    this.active = true;
-  }
 }
 
   // reset()

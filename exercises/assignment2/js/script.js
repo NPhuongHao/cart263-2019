@@ -24,14 +24,21 @@ const NUMBER_OF_FOODS = 5;
 let avatar;
 let foods = [];
 let foodColor;
+let bgColor = {
+  r: 0,
+  b: 0,
+  g: 0,
+}
+
+let ding;
 
 
 // preload()
 //
-// Not needed
+// Add sound
 
 function preload() {
-
+  ding = new Audio("assets/sounds/ding_2.mp3");
 }
 
 
@@ -63,7 +70,7 @@ function draw() {
     return;
   }
 
-  background(0);
+  background(bgColor.r,bgColor.b,bgColor.g);
 
   //Update position of avatar and food
   avatar.update();

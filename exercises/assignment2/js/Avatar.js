@@ -29,6 +29,13 @@ class Avatar extends Agent {
     this.size = constrain(this.size + other.size,0,this.maxSize);
     // Reset the other agent to "kill" it
     other.reset();
+    //Make the background lighter
+    bgColor.r = constrain(bgColor.r + random(0,2), 0, 255);
+    bgColor.b = constrain(bgColor.g + random(0,2), 0, 255);
+    bgColor.g = constrain(bgColor.b + random(0,2), 0, 255);
+    //Play sound
+    ding.currentTime = 0;
+    ding.play();
   }
 
   // update()
@@ -56,6 +63,6 @@ class Avatar extends Agent {
     }
 
   }
-  
+
 
 }

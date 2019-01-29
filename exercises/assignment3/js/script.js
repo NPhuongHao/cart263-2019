@@ -14,6 +14,12 @@ secrets become revealed!
 // A place to store the jQuery selection of all spans
 let $spans;
 
+//A constant to store the total amount of secrets
+const NUMBER_OF_SECRETS = 8;
+
+//A variable to count the secrets found
+let secretCount = 0;
+
 // When the document is loaded we call the setup function
 $(document).ready(setup);
 

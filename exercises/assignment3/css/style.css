@@ -7,9 +7,11 @@ Raving Redactionist CSS.
 /* Just some general syling of the page for aesthetics */
 body {
   font-family: Courier, monospace;
+  position: absolute;
   width: 800px;
-  margin-left: 100px;
-  margin-top: 100px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
 }
 
 div {
@@ -26,6 +28,16 @@ div {
 /* Revealed elements need to be highlighted because it's a disaster! */
 .revealed {
   background-color: transparent;
-  text-decoration: underline;
+  font-weight: bold;
   color: red
+}
+
+.secretHid {
+  background-color: transparent;
+  color: black;
+}
+
+.secretFound {
+  background-color: #34925E;
+  color: white;
 }

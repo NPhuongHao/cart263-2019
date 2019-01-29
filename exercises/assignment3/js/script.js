@@ -76,7 +76,7 @@ function updateSpan() {
   }
 }
 
-// handleSecret()
+// handleSecret() 
 function handleSecret() {
   //Check if the span selected is the secret span
   if ($(this).hasClass("secretHid")) {

@@ -31,8 +31,16 @@ function setup() {
   $spans = $('span');
   // Set a click handler on the spans (so we know when they're clicked)
   $spans.on('click',spanClicked);
+
+  //Set a function that gets called when the mouse hover over a span to check if it's the secretHid span
+  $spans.mouseenter(handleSecret);
+
   // Set an interval of 500 milliseconds to update the state of the page
   setInterval(update,500);
+
+  //Display the word count
+  document.getElementById("wordCount").innerHTML = secretCount;
+  document.getElementById("wordTotal").innerHTML = NUMBER_OF_SECRETS;
 };
 
 // spanClicked()
@@ -65,5 +73,19 @@ function updateSpan() {
       $(this).removeClass('redacted');
       $(this).addClass('revealed');
     }
+  }
+}
+
+// handleSecret()
+function handleSecret() {
+  //Check if the span selected is the secret span
+  if ($(this).hasClass("secretHid")) {
+    // Replace the span's secretHid class with secretFound
+    $(this).removeClass('secretHid');
+    $(this).addClass('secretFound');
+    // Add 1 to the secretCount variable
+    secretCount++;
+    //Display the new secret count
+    document.getElementById("wordCount").innerHTML = secretCount;
   }
 }

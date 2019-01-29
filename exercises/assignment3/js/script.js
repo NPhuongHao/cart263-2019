@@ -68,15 +68,12 @@ function update() {
 // by each(), "this" refers to the current element that each has selected.
 function updateSpan() {
   let r = Math.random();
-  if ($(this).hasClass("redacted")){
-    if (r < 0.1) {
-      $(this).removeClass('redacted');
-      $(this).addClass('revealed');
-    }
+  if (r < 0.1) {
+    $(this).removeClass('redacted');
+    $(this).addClass('revealed');
   }
 }
 
-// handleSecret() 
 function handleSecret() {
   //Check if the span selected is the secret span
   if ($(this).hasClass("secretHid")) {

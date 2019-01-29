@@ -60,29 +60,10 @@ function update() {
 // by each(), "this" refers to the current element that each has selected.
 function updateSpan() {
   let r = Math.random();
-  if (r < 0.1) {
-    $(this).removeClass('redacted');
-    $(this).addClass('revealed');
+  if ($(this).hasClass("redacted")){
+    if (r < 0.1) {
+      $(this).removeClass('redacted');
+      $(this).addClass('revealed');
+    }
   }
 }
-
-// A version using anonymous functions:
-
-// $(document).ready(function () {
-//   $spans = $('span');
-//
-//   $spans.on('click',function () {
-//     $(this).removeClass('revealed');
-//     $(this).addClass('redacted');
-//   });
-//
-//   setInterval(function () {
-//     $spans.each(function () {
-//       let r = Math.random();
-//       if (r < 0.1) {
-//         $(this).removeClass('redacted');
-//         $(this).addClass('revealed');
-//       }
-//     });
-//   },500);
-// });

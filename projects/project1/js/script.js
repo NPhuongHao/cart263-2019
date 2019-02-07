@@ -29,7 +29,7 @@ $(document).ready(function() {
 
   $(document).on('keydown', function(event) {
     if (event.keyCode == 39) {
-      angle -= .5;
+      angle -= .8;
 
       setInterval(function(){
         $circle3.rotate(angle);

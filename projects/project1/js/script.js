@@ -21,26 +21,49 @@ $(document).ready(function() {
   $circle2 = $('#c2');
   $circle1 = $('#c1');
 
-  $avatar = $('avatar');
+  $avatar = $('#avatar');
 
   let angle = .5;
   let initialSize = 420;
-  const SIZE_LOSS = 10;
+  let sizeLoss = 10;
 
   $(document).on('keydown', function(event) {
     if (event.keyCode == 39) {
-      angle-=.5;
+      angle -= .5;
 
       setInterval(function(){
         $circle3.rotate(angle);
-
       },50);
+
+      if($circle3.width() >= 1500) {
+        $circle3.animate({
+            width: '-=3px',
+            height: '-=3px'
+          },10);
+        $avatar.animate({
+          left: '-=.43px',
+          top: '-=.43px'
+        },10);
+      }
+
+      if($circle3.width() >= 480 && $circle3.width() <= 1500) {
+        $circle3.animate({
+            width: '-=6px',
+            height: '-=6px'
+          },10);
+        $avatar.animate({
+          left: '-=.86px',
+          top: '-=.86px'
+        },10);
+      }
 
     }
   });
+
   $(document).on('keyup', function(event) {
     if (event.keyCode == 39) {
-      $circle3.stopRotate();
+      $circle3.stopRotate()
+      $circle3.stop();
     }
   })
 

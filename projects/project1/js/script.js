@@ -39,22 +39,22 @@ $(document).ready(function() {
         $circle3.animate({
             width: '-=3px',
             height: '-=3px'
-          },10);
+          },30);
         $avatar.animate({
           left: '-=.43px',
           top: '-=.43px'
-        },10);
+        },30);
       }
 
       if($circle3.width() >= 480 && $circle3.width() <= 1500) {
         $circle3.animate({
             width: '-=6px',
             height: '-=6px'
-          },10);
+          },30);
         $avatar.animate({
           left: '-=.86px',
           top: '-=.86px'
-        },10);
+        },30);
       }
 
     }

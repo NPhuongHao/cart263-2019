@@ -7,19 +7,31 @@ This is the style file for this project.
 body {
   margin: 0;
   padding: 0;
-  background-color: rgb(30,30,30);
+  background-color: black;
 }
 
 .screen {
   overflow: hidden;
-  background-color: rgb(40,40,40);
+  background-color: rgb(20,20,20);
+  /*background: url('../assets/images/background.png') no-repeat;*/
+  background-size: contain;
   position: absolute;
   height: 600px;
   width: 600px;
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
+  transition: all .3s;
 }
+
+#background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+}
+
 
 #avatar {
   position: absolute;
@@ -40,21 +52,6 @@ body {
   left: 60px;
 }
 
-/*.rotate-animation {
-  animation: rotate 30s linear infinite, zoomOutc3 25s;
-}
-
-
-
-@keyframes rotate {
-  0%{transform: none;}
-  100% {transform: rotate(-360deg);}
-}
-
-@keyframes zoomOutc3 {
-  0% {height: 420%;}
-  100% {height: 480px;}
-}*/
 
 #c2, #c1 {
   display: none;

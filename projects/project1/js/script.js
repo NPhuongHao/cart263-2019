@@ -18,12 +18,19 @@ let $circle1;
 //variable for the avatar
 let $avatar;
 
+//variable for background animation trigger
+let backgroundTriggered = false;
+
+//variable for canvas' background element
+let $background;
+
 $(document).ready(function() {
   //assign the variables to their respective element using id
   $circle3 = $('#c3');
   $circle2 = $('#c2');
   $circle1 = $('#c1');
   $avatar = $('#avatar');
+  $background = $('#background');
 
   //variable for the circle's orientation
   let angle = 0;
@@ -61,8 +68,19 @@ $(document).ready(function() {
         },15);
       }
 
+      //trigger background animation once circle's width gets smaller than 480px
+      if ($circle3.width() <= 480 && backgroundTriggered == false) {
+        $background.animate({
+          opacity: "+=1"
+        },200)
+        $circle3.attr("src","assets/images/circle31.png")
+        console.log("background");
+        backgroundTriggered = true;
+      }
+
     }
   });
+
 
   //stop the rotation and the scaling if right arrow key is released
   $(document).on('keyup', function(event) {
@@ -73,3 +91,9 @@ $(document).ready(function() {
   })
 
 });
+
+function changeBackground() {
+  $background.animate({
+    opacity: "+=1"
+  })
+}

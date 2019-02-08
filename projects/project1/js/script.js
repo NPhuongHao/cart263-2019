@@ -59,7 +59,9 @@ $(document).ready(function() {
           left: '-=.43px',
           top: '-=.43px'
         },15);
-
+        $('hgroup').animate({
+          opacity: '-=.01'
+        },15)
       }
 
       //speed up the scaling if circle's width gets smaller than 1500 and stop the scaling at 480
@@ -96,12 +98,11 @@ $(document).ready(function() {
       }
 
       //trigger background animation once circle's width gets smaller than 480px
-      if ($circle3.width() <= 480 && backgroundTriggered == false) {
+      if ($circle3.width() <= 520 && backgroundTriggered == false) {
         $background.animate({
           opacity: "+=1"
-        },100)
+        },150);
         $circle3.attr("src","assets/images/circle31.png")
-        console.log("background");
         backgroundTriggered = true;
       }
 

@@ -10,9 +10,37 @@ body {
   background-color: black;
 }
 
+hgroup {
+  color: white;
+  margin-left: 50px;
+  margin-top: 80px;
+  font-size: 20px;
+}
+
+h1 {
+  font-family: 'Nova Script', cursive;
+  font-size: 300%;
+  text-transform: uppercase;
+}
+
+h2,h3 {
+  color: rgba(255,255,255,0.7);
+}
+
+h2 {
+  font-family: 'Nova Script', cursive;
+  font-size: 120%;
+}
+
+h3 {
+  margin-top: 30px;
+  font-family: 'Marck Script', cursive;
+  font-weight: lighter;
+}
+
 .screen {
   overflow: hidden;
-  background-color: rgb(20,20,20);
+  background-image: linear-gradient(45deg, rgb(30,30,30), black);
   /*background: url('../assets/images/background.png') no-repeat;*/
   background-size: contain;
   position: absolute;

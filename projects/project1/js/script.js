@@ -56,8 +56,10 @@ $(document).ready(function() {
           top: '+=.2px'
         },15)
         $avatar.animate({
-          left: '-=.43px',
-          top: '-=.43px'
+          width: '-=.07',
+          height: '-=.12',
+          left: '-=.33px',
+          top: '-=.33px'
         },15);
         $('hgroup').animate({
           opacity: '-=.01'
@@ -75,8 +77,10 @@ $(document).ready(function() {
           height: '-=6px'
         },15);
         $avatar.animate({
-          left: '-=.86px',
-          top: '-=.86px'
+          width: '-=.1',
+          height: '-=.16',
+          left: '-=.83px',
+          top: '-=.83px'
         },15);
       }
 
@@ -92,8 +96,10 @@ $(document).ready(function() {
           height: '-=6px'
         },15);
         $avatar.animate({
-          left: '-=.86px',
-          top: '-=.86px'
+          width: '-=.05',
+          height: '-=.12',
+          left: '-=.43px',
+          top: '-=.43px'
         },15);
       }
 

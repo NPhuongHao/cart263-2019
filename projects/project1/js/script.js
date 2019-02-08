@@ -13,7 +13,6 @@ author, and this description to match your project!
 //variables for the circles
 let $circle3;
 let $circle2;
-let $circle1;
 
 //variable for the avatar
 let $avatar;
@@ -28,7 +27,6 @@ $(document).ready(function() {
   //assign the variables to their respective element using id
   $circle3 = $('#c3');
   $circle2 = $('#c2');
-  $circle1 = $('#c1');
   $avatar = $('#avatar');
   $background = $('#background');
 
@@ -43,6 +41,7 @@ $(document).ready(function() {
 
       setInterval(function(){
         $circle3.rotate(angle);
+        $circle2.rotate(angle);
       },50);
 
       if($circle3.width() >= 1500) {
@@ -50,18 +49,46 @@ $(document).ready(function() {
             width: '-=3px',
             height: '-=3px'
           },15);
+        $circle2.animate({
+          width: '-=2.4px',
+          height: '-=2.4px',
+          left: '+=.2px',
+          top: '+=.2px'
+        },15)
         $avatar.animate({
           left: '-=.43px',
           top: '-=.43px'
         },15);
+
       }
 
       //speed up the scaling if circle's width gets smaller than 1500 and stop the scaling at 480
-      if($circle3.width() >= 480 && $circle3.width() <= 1500) {
+      if($circle3.width() >= 600 && $circle3.width() <= 1500) {
         $circle3.animate({
             width: '-=6px',
             height: '-=6px'
           },15);
+        $circle2.animate({
+          width: '-=6px',
+          height: '-=6px'
+        },15);
+        $avatar.animate({
+          left: '-=.86px',
+          top: '-=.86px'
+        },15);
+      }
+
+      //Display the smaller circle as the big circle gets smaller
+      if ($circle3.width() >= 480 && $circle3.width() <= 600) {
+        $circle3.animate({
+            width: '-=6px',
+            height: '-=6px'
+          },15);
+        $circle2.animate({
+          opacity: '+=.05',
+          width: '-=6px',
+          height: '-=6px'
+        },15);
         $avatar.animate({
           left: '-=.86px',
           top: '-=.86px'
@@ -72,11 +99,12 @@ $(document).ready(function() {
       if ($circle3.width() <= 480 && backgroundTriggered == false) {
         $background.animate({
           opacity: "+=1"
-        },200)
+        },100)
         $circle3.attr("src","assets/images/circle31.png")
         console.log("background");
         backgroundTriggered = true;
       }
+
 
     }
   });

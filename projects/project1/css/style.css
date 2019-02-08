@@ -53,6 +53,9 @@ body {
 }
 
 
-#c2, #c1 {
-  display: none;
+#c2 {
+  opacity: 0;
+  height: 350%;
+  top: 100px;
+  left: 100px;
 }

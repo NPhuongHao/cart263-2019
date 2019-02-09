@@ -17,6 +17,9 @@ let $circle2;
 //variable for the avatar
 let $avatar;
 
+//variable for the ending text
+let $textEnd;
+
 //variable for background animation trigger
 let backgroundTriggered = false;
 
@@ -29,20 +32,24 @@ $(document).ready(function() {
   $circle2 = $('#c2');
   $avatar = $('#avatar');
   $background = $('#background');
+  $textEnd = $('#textEnd');
 
   //variable for the circle's orientation
   let angle = 0;
+  let angle2 = 0;
 
 
   $(document).on('keydown', function(event) {
     if (event.keyCode == 39) {
       //if right arrow key is down, animate the circle and the character
       angle -= .6;
+      angle2 -= .8
 
       setInterval(function(){
         $circle3.rotate(angle);
-        $circle2.rotate(angle);
+        $circle2.rotate(angle2);
       },50);
+
 
       if($circle3.width() >= 1500) {
         $circle3.animate({
@@ -103,13 +110,17 @@ $(document).ready(function() {
         },15);
       }
 
-      //trigger background animation once circle's width gets smaller than 480px
+      //trigger background animation once circle's width gets smaller than 520px
       if ($circle3.width() <= 520 && backgroundTriggered == false) {
         $background.animate({
           opacity: "+=1"
         },150);
-        $circle3.attr("src","assets/images/circle31.png")
+        $textEnd.animate({
+          opacity: "+=1"
+        },550);
+        $circle3.attr("src","assets/images/circle31.png");
         backgroundTriggered = true;
+
       }
 
 
@@ -122,6 +133,7 @@ $(document).ready(function() {
     if (event.keyCode == 39) {
       $circle3.stopRotate()
       $circle3.stop();
+
     }
   })
 

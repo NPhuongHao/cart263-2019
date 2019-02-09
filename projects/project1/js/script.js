@@ -24,12 +24,20 @@ let $textEnd;
 //variable for background animation trigger
 let backgroundTriggered = false;
 
+//variable for music trigger
+let musicOn = false;
+let musicBG;
+
 //variable for canvas' background element
 let $background;
 
 //variable for the circle's orientation
 let angle = 0;
 let angle2 = 0;
+
+function preload() {
+  musicBG = new Audio("../assets/sounds/Wadanohara_OST_WadanoharasOcarina.mp3");
+}
 
 $(document).ready(function() {
   //assign the variables to their respective element using id
@@ -47,6 +55,11 @@ $(document).ready(function() {
 
       //start rotating the circles
       rotateCircles();
+
+      if(musicOn == false) {
+        $('#musicBG').trigger('play');
+        musicOn == true;
+      }
 
       //Resize and relocate the circle and avatar until the big circle's size reaches 1500px
       if($circle2.width() >= 1500) {

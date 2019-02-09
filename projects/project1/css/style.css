@@ -63,23 +63,11 @@ h3 {
 
 #avatar {
   position: absolute;
-  background-size: contain;
   height: 100px;
-  width: 60px;
+  width: 50px;
+  background-color: white;
   top: 60%;
   left: 60%;
-}
-
-#textEnd {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  color: white;
-  text-align: center;
-  width: 200px;
-  font-family: 'Marck Script', cursive;
-  opacity: 0;
 }
 
 .road img {

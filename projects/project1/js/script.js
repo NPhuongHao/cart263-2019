@@ -2,17 +2,18 @@
 
 /*****************
 
-Title of Project
-Author Name
+Path of life
+Nguyen Phuong Hao
 
-This is a template. You must fill in the title,
-author, and this description to match your project!
+This is a project for CART 212, Concordia University.
+The player is prompted to keep moving forward, only to realize at the end that they're moving in circle.
+The project attempts to represent one aspect of Albert Camus' Sisyphus, when what matters in life is to move forward despite how fruitless it is.
 
 ******************/
 
 //variables for the circles
-let $circle3;
 let $circle2;
+let $circle1;
 
 //variable for the avatar
 let $avatar;
@@ -26,99 +27,62 @@ let backgroundTriggered = false;
 //variable for canvas' background element
 let $background;
 
+//variable for the circle's orientation
+let angle = 0;
+let angle2 = 0;
+
 $(document).ready(function() {
   //assign the variables to their respective element using id
-  $circle3 = $('#c3');
   $circle2 = $('#c2');
+  $circle1 = $('#c1');
   $avatar = $('#avatar');
   $background = $('#background');
   $textEnd = $('#textEnd');
 
-  //variable for the circle's orientation
-  let angle = 0;
-  let angle2 = 0;
-
-
+  //
+  //Trigger animation when the right arrow key is down using keydown
   $(document).on('keydown', function(event) {
     if (event.keyCode == 39) {
-      //if right arrow key is down, animate the circle and the character
-      angle -= .6;
-      angle2 -= .8
+      //if right arrow key is down, animate the circle and the avatar
 
-      setInterval(function(){
-        $circle3.rotate(angle);
-        $circle2.rotate(angle2);
-      },50);
+      //start rotating the circles
+      rotateCircles();
 
-
-      if($circle3.width() >= 1500) {
-        $circle3.animate({
-            width: '-=3px',
-            height: '-=3px'
-          },15);
-        $circle2.animate({
-          width: '-=2.4px',
-          height: '-=2.4px',
-          left: '+=.2px',
-          top: '+=.2px'
-        },15)
-        $avatar.animate({
-          width: '-=.07',
-          height: '-=.12',
-          left: '-=.33px',
-          top: '-=.33px'
-        },15);
+      //Resize and relocate the circle and avatar until the big circle's size reaches 1500px
+      if($circle2.width() >= 1500) {
+        updateCircles(3, 2.4, 0.2, 0);
+        updateAvatar(.07, .12, .33);
+        //makes the titles vanish
         $('hgroup').animate({
           opacity: '-=.01'
         },15)
       }
 
-      //speed up the scaling if circle's width gets smaller than 1500 and stop the scaling at 480
-      if($circle3.width() >= 600 && $circle3.width() <= 1500) {
-        $circle3.animate({
-            width: '-=6px',
-            height: '-=6px'
-          },15);
-        $circle2.animate({
-          width: '-=6px',
-          height: '-=6px'
-        },15);
-        $avatar.animate({
-          width: '-=.1',
-          height: '-=.16',
-          left: '-=.83px',
-          top: '-=.83px'
-        },15);
+      //speed up the scaling if circle's width gets smaller than 1500 and stop the current scaling at 600
+      if($circle2.width() >= 600 && $circle2.width() <= 1500) {
+        updateCircles(6, 6, 0, 0);
+        updateAvatar(.1, .16, .83);
       }
 
-      //Display the smaller circle as the big circle gets smaller
-      if ($circle3.width() >= 480 && $circle3.width() <= 600) {
-        $circle3.animate({
-            width: '-=6px',
-            height: '-=6px'
-          },15);
-        $circle2.animate({
-          opacity: '+=.05',
-          width: '-=6px',
-          height: '-=6px'
-        },15);
-        $avatar.animate({
-          width: '-=.05',
-          height: '-=.12',
-          left: '-=.43px',
-          top: '-=.43px'
-        },15);
+      //Display the smaller circle (opacity increase = 0.05) and slow down the avatar's scaling as the big circle gets smaller
+      if ($circle2.width() >= 480 && $circle2.width() <= 600) {
+        updateCircles(6, 6, 0, 0.05);
+        updateAvatar(.05, .12, .43);
       }
 
-      //trigger background animation once circle's width gets smaller than 520px
-      if ($circle3.width() <= 520 && backgroundTriggered == false) {
+      //trigger animation once circle's width gets smaller than 520px
+      if ($circle2.width() <= 520 && backgroundTriggered == false) {
+        //Display the background
         $background.animate({
           opacity: "+=1"
         },150);
+        //Display the ending text
         $textEnd.animate({
           opacity: "+=1"
         },550);
-        $circle3.attr("src","assets/images/circle31.png");
+        //change the big circle's visual (to make it prettier)
+        $circle2.attr("src","assets/images/circle31.png");
+        //animation won't be triggered again
         backgroundTriggered = true;
 
       }
@@ -128,19 +92,57 @@ $(document).ready(function() {
   });
 
 
-  //stop the rotation and the scaling if right arrow key is released
+  //stop the rotation and the scaling of the circles and avatar if right arrow key is released
   $(document).on('keyup', function(event) {
     if (event.keyCode == 39) {
-      $circle3.stopRotate()
-      $circle3.stop();
-
+      $circle2.stopRotate();
+      $circle2.stop();
+      $circle1.stopRotate();
+      $circle1.stop();
+      $avatar.stop();
     }
   })
 
 });
 
-function changeBackground() {
-  $background.animate({
-    opacity: "+=1"
-  })
+//
+//rotate the pathway circles
+function rotateCircles() {
+  //Decrease angle
+  angle -= 0.6;
+  angle2 -= 0.8;
+  //move the circles backward a certain angle each 50 frames using the jQueryRotate library
+  setInterval(function(){
+    $circle2.rotate(angle);
+    $circle1.rotate(angle2);//The smaller circle moves faster than the bigger one
+  },50);
+}
+
+//
+//Resize and relocate the pathway circles
+function updateCircles(circle2Size, circle1Size, circle1Position,circle1Opacity) {
+  //resize and relocate the circles each 15 mils
+  $circle2.animate({
+      width: '-='+circle2Size+'px',
+      height: '-='+circle2Size+'px'
+    },15);
+  $circle1.animate({
+    width: '-='+circle1Size+'px',
+    height: '-='+circle1Size+'px',
+    left: '+='+circle1Position+'px',
+    top: '+='+circle1Position+'px',
+    opacity: '+='+circle1Opacity,
+  },15)
+}
+
+//
+//Resize and relocate the avatar
+function updateAvatar(width, height, position) {
+  //resize and relocate the avatar each 15 mils with animate()
+  $avatar.animate({
+    width: '-='+width,
+    height: '-='+height,
+    left: '-='+position+'px',
+    top: '-='+position+'px'
+  },15);
 }

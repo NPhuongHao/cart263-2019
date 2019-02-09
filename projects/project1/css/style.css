@@ -10,6 +10,9 @@ body {
   background-color: black;
 }
 
+
+/*------------------TITLES--------------------*/
+
 hgroup {
   color: white;
   margin-left: 50px;
@@ -38,6 +41,8 @@ h3 {
   font-weight: lighter;
 }
 
+/*------------------PLAY SCREEN--------------------*/
+
 .screen {
   overflow: hidden;
   background-image: linear-gradient(45deg, rgb(30,30,30), black);
@@ -60,6 +65,7 @@ h3 {
   opacity: 0;
 }
 
+/*------------------AVATAR--------------------*/
 
 #avatar {
   position: absolute;
@@ -69,6 +75,8 @@ h3 {
   top: 60%;
   left: 60%;
 }
+
+/*------------------ENDING TEXTS--------------------*/
 
 #textEnd {
   position: absolute;
@@ -82,18 +90,21 @@ h3 {
   opacity: 0;
 }
 
+
+/*------------------PATHWAY CIRCLES--------------------*/
+
 .road img {
   position: absolute;
 }
 
-#c3 {
+#c2 {
   height: 420%;
   top: 60px;
   left: 60px;
 }
 
 
-#c2 {
+#c1 {
   opacity: 0;
   height: 350%;
   top: 100px;

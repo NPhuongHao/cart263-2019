@@ -104,6 +104,8 @@ $(document).ready(function() {
       $circle1.stopRotate();
       $circle1.stop();
       $avatar.stop();
+      //Stop musing if the player stops pressing
+      $('#musicBG').trigger('pause');
     }
   })
 

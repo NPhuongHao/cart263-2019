@@ -17,6 +17,7 @@ Chewing: https://freesound.org/people/InspectorJ/sounds/412068/
 // Sound effects for the experience
 let buzzSFX = new Audio("assets/sounds/buzz.mp3");
 let crunchSFX = new Audio("assets/sounds/crunch.wav");
+let ewwSFX = new Audio("assets/sounds/eww.mp3");
 
 // Variable to hold our three key elements
 let $mouth;
@@ -35,7 +36,12 @@ function setup() {
 
   // Make the fly and cookie draggable
   $fly.draggable();
-  $cookie.draggable({ revert: true });
+  $cookie.draggable({
+    revert: true,
+    start: function() {
+      ewwSFX.play();
+    }
+  });
 
   // Make the mouse droppable
   $mouth.droppable({

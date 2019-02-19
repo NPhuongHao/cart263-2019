@@ -166,6 +166,8 @@ let answers = [];
 // How many possible answers there are per round
 const NUM_OPTIONS = 5;
 
+let commands;
+
 // Get setup!
 $(document).ready(setup);
 
@@ -175,6 +177,42 @@ $(document).ready(setup);
 // to actually start the game.
 function setup() {
   $('#click-to-begin').on('click',startGame);
+
+  commands = {
+    'i give up' : function() {
+      console.log("give up");
+      // Remove all the buttons
+      $('.guess').remove();
+      // Start a new round
+      setTimeout(newRound,100);
+    },
+
+    'say it again' : function() {
+      console.log("say again");
+      // Say the correct animal again
+      speakAnimal(correctAnimal);
+    },
+
+    'I think it is *X': function(X) {
+      console.log("guess answer");
+      if(X === correctAnimal) {
+        console.log("guess answer right");
+        // Remove all the buttons
+        $('.guess').remove();
+        // Start a new round
+        setTimeout(newRound,100);
+      } else {
+        console.log("guess answer wrong");
+        // Otherwise they were wrong, so shake the button
+        $(".guess").effect('shake');
+        // And say the correct animal again to "help" them
+        speakAnimal(correctAnimal);
+      }
+    }
+  };
+
+  annyang.addCommands(commands);
+
 }
 
 // startGame()
@@ -184,6 +222,8 @@ function startGame() {
   $('#click-to-begin').remove();
 
   newRound();
+  annyang.start();
+
 }
 
 // newRound()
@@ -256,7 +296,7 @@ function addButton(label) {
       // Remove all the buttons
       $('.guess').remove();
       // Start a new round
-      setTimeout(newRound,1000);
+      setTimeout(newRound,100);
     }
     else {
       // Otherwise they were wrong, so shake the button

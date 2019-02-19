@@ -37,7 +37,9 @@ function setup() {
   // Make the fly and cookie draggable
   $fly.draggable();
   $cookie.draggable({
+    //revert when drag is finished
     revert: true,
+    //play disgusted noise
     start: function() {
       ewwSFX.play();
     }

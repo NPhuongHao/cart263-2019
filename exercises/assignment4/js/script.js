@@ -18,25 +18,33 @@ Chewing: https://freesound.org/people/InspectorJ/sounds/412068/
 let buzzSFX = new Audio("assets/sounds/buzz.mp3");
 let crunchSFX = new Audio("assets/sounds/crunch.wav");
 
-// Variable to hold our two key elements
+// Variable to hold our three key elements
 let $mouth;
 let $fly;
+let $cookie;
 
 $(document).ready(setup);
 
 function setup() {
   // Get the mouth element from the page
   $mouth = $('#mouth');
-  // Make it droppable
+  // Get the fly element from the page
+  $fly = $('#fly');
+  // Get the cookie element from the page
+  $cookie = $('#cookie');
+
+  // Make the fly and cookie draggable
+  $fly.draggable();
+  $cookie.draggable({ revert: true });
+
+  // Make the mouse droppable
   $mouth.droppable({
+    //The mouth accept only the fly object
+    accept: $fly,
     // The drop option specifies a function to call when a drop is completed
     drop: flyDropped
   });
 
-  // Get the fly element from the page
-  $fly = $('#fly');
-  // Make it draggable
-  $fly.draggable();
 
   // Start up the buzzing of the fly
   buzzSFX.loop = true;

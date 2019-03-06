@@ -166,6 +166,10 @@ let answers = [];
 // How many possible answers there are per round
 const NUM_OPTIONS = 5;
 
+//The player's score
+let score = 0;
+
+//Variable for the annyang commands
 let commands;
 
 // Get setup!
@@ -179,16 +183,15 @@ function setup() {
   $('#click-to-begin').on('click',startGame);
 
   commands = {
+    //If the player gives up, change to another round, reset score to 0
     'i give up' : function() {
-      console.log("give up");
-      // Remove all the buttons
-      $('.guess').remove();
-      // Start a new round
-      setTimeout(newRound,100);
+      changeRound();
+      //reset score to 0
+      score = 0;
     },
 
+    //If the player tells the program to say it again, it will repeat the reversed animal name
     'say it again' : function() {
-      console.log("say again");
       // Say the correct animal again
       speakAnimal(correctAnimal);
     },
@@ -196,17 +199,17 @@ function setup() {
     'I think it is *X': function(X) {
       console.log("guess answer");
       if(X === correctAnimal) {
-        console.log("guess answer right");
-        // Remove all the buttons
-        $('.guess').remove();
-        // Start a new round
-        setTimeout(newRound,100);
+        changeRound();
+        //add 1 to the score
+        score++;
       } else {
-        console.log("guess answer wrong");
         // Otherwise they were wrong, so shake the button
         $(".guess").effect('shake');
         // And say the correct animal again to "help" them
         speakAnimal(correctAnimal);
+        //reset score to 0
+        score = 0;
+        displayNewScore();
       }
     }
   };
@@ -248,6 +251,9 @@ function newRound() {
 
   // Say the name of the animal
   speakAnimal(correctAnimal);
+
+  displayNewScore();
+
 }
 
 // speakAnimal(name)
@@ -293,19 +299,45 @@ function addButton(label) {
   $button.on('click',function () {
     // If the button they clicked on has a label matching the correct answer...
     if ($(this).text() === correctAnimal) {
-      // Remove all the buttons
-      $('.guess').remove();
-      // Start a new round
-      setTimeout(newRound,100);
+      changeRound();
+      //add 1 to the score
+      score++;
     }
     else {
       // Otherwise they were wrong, so shake the button
       $(this).effect('shake');
       // And say the correct animal again to "help" them
       speakAnimal(correctAnimal);
+      //Reset the score to 0
+      score = 0;
+      displayNewScore();
     }
   });
 
   // Finally, add the button to the page so we can see it
   $('body').append($button);
+}
+
+//changeRound()
+//
+//set up a new round
+function changeRound() {
+  // Remove all the buttons
+  $('.guess').remove();
+  // Start a new round
+  setTimeout(newRound,100);
+}
+
+//displayNewScore()
+//
+//Display the current score
+function displayNewScore() {
+  //Remove the previous score
+  $('#score').remove();
+  // Create a div with jQuery using HTML
+  let $score = $('<div id="score"></div>');
+  // Set the text in the div to our label
+  $score.text('score = ' + score);
+  // Add the text to the page so we can see it
+  $('body').append($score);
 }

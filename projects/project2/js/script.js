@@ -2,7 +2,7 @@
 
 /*****************
 
-CLOUDY WITH A CHANCE OF ACCURATE TITLE
+CLOUDY WITH A CHANCE OF SENSIBLE TITLE
 Nguyen PHuong Hao
 
 This is a template. You must fill in the title,
@@ -44,22 +44,21 @@ function startGame() {
 
   //load the JSON file
   $.getJSON('data/kidKeywords.json', dataLoaded);
+
+  $(document).keypress(function(event) {
+    console.log('keypressed');
+    if (event.which == 13) {
+      console.log("omgfg");
+      newRound();
+    }
+  })
 }
 
 // dataLoaded()
 //
 // Execute the program after the data has been loaded
 function dataLoaded(data) {
-  console.log("This data has been loaded");
   keywords = data.keywords;
-
-  $(document).keypress(function(event) {
-    console.log('keypressed');
-    if (event.which == 13) {
-      console.log("omg");
-      newRound();
-    }
-  })
 }
 
 function newRound() {
@@ -87,33 +86,36 @@ function newRound() {
   let correctPosition = Math.floor(Math.random()*NUM_OPTIONS);
   options[correctPosition] = answer;
 
-  console.log(options);
-
   //Randomize 7 more titles to fill the options array
   for (let i = 0; i<NUM_OPTIONS; i++) {
     //if the current position is similar to the correct answer's position
-    if (i = correctPosition) {
+    if (i == correctPosition) {
       //ignore it
       i = i;
     }
     //if not, create a new array that has the first element similar to the correct answer's first element
-    //this is to create a daegree of confusion
+    //this is to create a degree of confusion
     else {
       optionRandomizer(i)
     }
   }
+
+  console.log(options);
+
 }
 
+//optionRandomizer()
+//
+// This function is to generate a random array that has the same first element with the answer array
 function optionRandomizer(code) {
   //create an array that store this option
-  let currentOption;
+  let currentOption = [];
   //assign the same first element of the answer array to this option's array
-  currentOption[i] = answer[0];
+  currentOption[0] = answer[0];
   //then randomize the rest
   for (var i=1; i<NUM_KEYWORDS; i++) {
     //Add a random keyword in the list to the currentOption's current element
     currentOption[i] = keywords[Math.floor(Math.random()*keywords.length)];
-    console.log(currentOption);
     //Compare this element to the previous element
     for (let t=0; t<i; t++){
       //if the current element is similar to the element in comparison
@@ -127,5 +129,5 @@ function optionRandomizer(code) {
     }
   }
   //add this array to the options array
-  options(code) = currentOption;
+  options[code] = currentOption;
 }

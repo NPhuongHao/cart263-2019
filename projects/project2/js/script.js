@@ -63,7 +63,7 @@ function setup() {
   //load the sound files
   wrong = new Audio('../assets/sounds/wrong.mp3');
   correct = new Audio('../assets/sounds/correct.mp3');
-  bgm = new Audio('../assets/sounds/Nursery.mp3');
+  bgm = new Audio('../assets/sounds/crunch.mp3');
   endingbgm = new Audio('../assets/sounds/Ending.mp3');
 
   //Add annyang commands
@@ -145,7 +145,9 @@ function dataLoaded(data) {
   newRound();
 }
 
-
+//newRound()
+//
+//Call new round
 function newRound() {
 
   //Pick random keywords from the list to form an array that is the correct answer

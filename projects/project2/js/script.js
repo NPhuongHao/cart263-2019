@@ -44,6 +44,12 @@ let score = 0;
 //Variable for the minimum animation duration of the titles
 let minimumDuration = 10000;
 
+//Variables for the sound effects and songs
+let bgm;
+let endingbgm;
+let wrong;
+let correct;
+
 //Setup the program
 $(document).ready(setup);
 
@@ -55,9 +61,12 @@ function setup() {
   $('#click-to-begin').on('click', startGame);
 
   //load the sound files
-  var wrong = new Audio('../assets/sounds/wrong.mp3');
-  var correct = new Audio('../assets/sounds/correct.mp3')
+  wrong = new Audio('../assets/sounds/wrong.mp3');
+  correct = new Audio('../assets/sounds/correct.mp3');
+  bgm = new Audio('../assets/sounds/Nursery.mp3');
+  endingbgm = new Audio('../assets/sounds/Ending.mp3');
 
+  //Add annyang commands
   commands = {
     //If the player gives up, change to another round, reset score to 0
     'i give up' : function() {
@@ -73,8 +82,8 @@ function setup() {
       if(X == answerPosition+1) {
         //add 1 to the score
         score++;
-        //call the ending if the score reaches 20
-        if (score == 5) {
+        //call the ending if the score reaches 10
+        if (score == 10) {
           console.log(score);
           ending();
         }
@@ -89,7 +98,7 @@ function setup() {
         wrong.play();
         // Play the correct answer
         //retrieve the text element
-        let $correctAnswer = $('#answer').text();
+        let $correctAnswer = `${answer[0]} ${answer[1]} ${answer[2]} ${answer[3]} ${answer[4]}`;
         //set random optiosn for pitch
         let options = {
           pitch: Math.random(),
@@ -109,6 +118,9 @@ function setup() {
 //
 // Remove the click to begin and set up the playground
 function startGame() {
+  bgm.play();
+  bgm.loop = true;
+
   //remove the Click
   $('hgroup').animate({
     opacity: '-=1'
@@ -249,7 +261,7 @@ function displayAnswer() {
   let $answer = $('<div id="answer"></div>')
   $('#playground').append($answer);
   //Assemble the answer array's elements into a string
-  let $content = `${answer[0]} ${answer[1]} ${answer[2]} ${answer[3]} ${answer[4]}`
+  let $content = `${answer[0]} ${answer[1]} ${answer[2]} ${answer[3]} ${answer[4]}`;
   //Add the string to the div element
   $answer.append($content);
   //Keep its initial opacity at 0
@@ -335,19 +347,27 @@ function resetState() {
 }
 
 function ending() {
+  //stop the bgm and play the ending bgm
+  bgm.pause();
+  endingbgm.play();
+  endingbgm.loop = true;
+  //speed up the pacing
   minimumDuration = 5000;
-  //create a div element to contain the titles
-  let $ul = $('<div id="list-titles"></div>');
-  $('#playground').append($ul);
+  //Make a mess of options
+  for (let i=0; i<10; i++){
+    //create a div element to contain the titles
+    let $ul = $('<div id="list-titles"></div>');
+    $('#playground').append($ul);
 
-  //create a new element for each title
-  for (let i=0; i<NUM_OPTIONS; i++) {
-    let $li = $('<div class="title" id="title-code-'+i+'"></div>');
-    //display this element inside the parent div element
-    $ul.append($li);
-    //write out the title
-    let title = `${options[i][0]} ${options[i][1]} ${options[i][2]} ${options[i][3]} ${options[i][4]}`
-    //display the title using append()
-    $li.append(title);
+    //create a new element for each title
+    for (let i=0; i<NUM_OPTIONS; i++) {
+      let $li = $('<div class="title" id="title-code-'+i+'"></div>');
+      //display this element inside the parent div element
+      $ul.append($li);
+      //write out the title
+      let title = `${options[i][0]} ${options[i][1]} ${options[i][2]} ${options[i][3]} ${options[i][4]}`
+      //display the title using append()
+      $li.append(title);
+    }
   }
 }

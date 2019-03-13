@@ -119,3 +119,8 @@ hgroup {
   transform: translateX(-50%);
   opacity: 0;
 }
+
+#score {
+  color: white;
+  margin: 20px;
+}

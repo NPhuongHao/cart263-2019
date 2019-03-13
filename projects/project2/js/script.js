@@ -5,12 +5,18 @@
 CLOUDY WITH A CHANCE OF SENSIBLE TITLE
 Nguyen PHuong Hao
 
-This is a template. You must fill in the title,
-author, and this description to match your project!
+Soak yourself under the heavy rain of popular kids-friendly Youtube video titles!
+Do they look similar? Yes!
+Are they the same video? Most likely no.
+Read your keywords carefully, then choose the right answer
+by pronoucning its code (from 1 to 8, as you can see), or just click on it.
 
 ******************/
 //Variable to store the keywords JSON file
 let keywords;
+
+//Variable to check if the game has started
+let gameStarted = false;
 
 //Variable to store the instruction
 let $instruction;
@@ -42,7 +48,7 @@ let commands;
 let score = 0;
 
 //Variable for the minimum animation duration of the titles
-let minimumDuration = 10000;
+let minimumDuration;
 
 //Variables for the sound effects and songs
 let bgm;
@@ -50,9 +56,11 @@ let endingbgm;
 let wrong;
 let correct;
 
+//-----------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------
+
 //Setup the program
 $(document).ready(setup);
-
 
 // setup()
 //
@@ -80,33 +88,9 @@ function setup() {
 
     '*X': function(X) {
       if(X == answerPosition+1) {
-        //add 1 to the score
-        score++;
-        //call the ending if the score reaches 8
-        if (score == 8) {
-          console.log(score);
-          ending();
-        }
-        //play the ding sound
-        correct.play();
-        //reset
-        resetState();
-        //call a new round
-        newRound();
+        rightAnswer();
       } else {
-        // Otherwise they were wrong, play the beep sound
-        wrong.play();
-        // Play the correct answer
-        //retrieve the text element
-        let $correctAnswer = `${answer[0]} ${answer[1]} ${answer[2]} ${answer[3]} ${answer[4]}`;
-        //set random optiosn for pitch
-        let options = {
-          pitch: Math.random(),
-        };
-        //play the sound
-        responsiveVoice.speak($correctAnswer,'UK English Female',options);
-        //reset score to 0
-        score = 0;
+        wrongAnswer();
       }
     }
   };
@@ -118,6 +102,7 @@ function setup() {
 //
 // Remove the click to begin and set up the playground
 function startGame() {
+  //play the BGM
   bgm.play();
   bgm.loop = true;
 
@@ -127,6 +112,8 @@ function startGame() {
   }, 1000, function() {
     $('hgroup').remove();
   });
+
+  //Reveal the code numbers
   $('#numbers').animate({
     opacity: '+=0.5'
   },1000);
@@ -134,7 +121,7 @@ function startGame() {
   //load the JSON file
   $.getJSON('data/kidKeywords.json', dataLoaded);
 
-  $instruction = $('<div id="instruction">Soak yourself under the heavy rain of popular kids-friendly Youtube video titles! Do they look similar? Yes! Are they the same video? Most likely no. <br> Read your keywords carefully, then choose the right answer by pronoucning its code (from 1 to 8, as you can see).<br> Press ENTER to start selecting.</div>')
+  $instruction = $('<div id="instruction">Soak yourself under the heavy rain of popular kids-friendly Youtube video titles! Do they look similar? Yes! Are they the same video? Most likely no. <br> Read your keywords carefully, then choose the right answer by pronoucning its code (from 1 to 8, as you can see), or click on the right answer.<br> Press ENTER to start selecting.</div>')
   $('#playground').append($instruction);
   $instruction.animate({
     opacity: '+=1'
@@ -150,19 +137,30 @@ function dataLoaded(data) {
   keywords = data.keywords;
   $(document).keypress(function(event) {
     if (event.which == 13) {
-      $instruction.animate({
-        opacity: '-=1'
-      },500, function() {
-        newRound();
-      });
+      if(gameStarted == false) {
+        $instruction.animate({
+          opacity: '-=1'
+        },500, function() {
+          newRound();
+        });
+        gameStarted = true;
+        //Start annyang
+        annyang.start();
+      }
     }
-  })
+  });
 }
+
+//-----------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------
 
 //newRound()
 //
 //Call new round
 function newRound() {
+
+  //Display score
+  $("#score").text("SCORE: " + score);
 
   //Pick random keywords from the list to form an array that is the correct answer
   generateCorrectAnswer();
@@ -173,12 +171,48 @@ function newRound() {
   fillOptions();
   //Display the titles on screen
   displayOptions();
-  //Start annyang
-  annyang.start();
   //Animate the titles' movements
   moveOptions();
 
+  //check the answer by clicking
+  $(".title").on("click", function() {
+    if ($(this).hasClass('right-answer')) {
+      rightAnswer();
+    } else {
+      wrongAnswer();
+    }
+  });
+
 }
+
+//displayAnswer()
+//
+// This function displays the right answer on screen when starting a new round
+function displayAnswer() {
+  //remove the Click
+  $('#answer').animate({
+    opacity: '-=1'
+  }, 1000, function() {
+    $('#answer').remove();
+  });
+  //Add the div element
+  let $answer = $('<div id="answer"></div>')
+  $('#playground').append($answer);
+  //Assemble the answer array's elements into a string
+  let $content = `${answer[0]} ${answer[1]} ${answer[2]} ${answer[3]} ${answer[4]}`;
+  //Add the string to the div element
+  $answer.append($content);
+  //Keep its initial opacity at 0
+  $answer.css("opacity", "0");
+  //Increase its opacity gradually with animate()
+  $answer.animate({
+    opacity: '+=1'
+  },1000);
+}
+
+//-----------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------
+
 
 //generateCorrectAnswer()
 //
@@ -256,31 +290,6 @@ function optionRandomizer() {
   return currentOption;
 }
 
-//displayAnswer()
-//
-// This function displays the right answer on screen before starting a new round
-function displayAnswer() {
-  //remove the Click
-  $('#answer').animate({
-    opacity: '-=1'
-  }, 1000, function() {
-    $('#answer').remove();
-  });
-  //Add the div element
-  let $answer = $('<div id="answer"></div>')
-  $('#playground').append($answer);
-  //Assemble the answer array's elements into a string
-  let $content = `${answer[0]} ${answer[1]} ${answer[2]} ${answer[3]} ${answer[4]}`;
-  //Add the string to the div element
-  $answer.append($content);
-  //Keep its initial opacity at 0
-  $answer.css("opacity", "0");
-  //Increase its opacity gradually with animate()
-  $answer.animate({
-    opacity: '+=1'
-  },1000);
-}
-
 //displayOptions()
 //
 // Display the title options
@@ -306,7 +315,6 @@ function displayOptions() {
   }
 }
 
-
 //addOptions()
 //
 // Animate the title options
@@ -316,43 +324,77 @@ function moveOptions() {
   //Assign each HTML element to a $optionsHTML element and animate it
   for (let i=0; i<NUM_OPTIONS; i++) {
     //set up a random duration from 10000ms to 15000ms
-    let time = Math.random()*5000+ minimumDuration ;
+    minimumDuration = 10000;
+    let time = Math.random()*5000+ minimumDuration;
     //Retrieve the HTML element according to the current array element
     $optionsHTML[i] = $('#title-code-'+i);
+    //Add a "right-answer" class to the element containing the right answer
+    $('#title-code-'+answerPosition).addClass('right-answer');
     //Increase the HTML element's top margin so that it looks like it's moving downward
     $optionsHTML[i].animate({
       "margin-top": "+="+distance,
     }, time, function() {
       exitedTitles++;
-      checkRoundEnd();
+      if (exitedTitles == NUM_OPTIONS) {
+        resetState();
+        score = 0;
+        newRound();
+      }
     });
   }
-
 }
 
-//checkRoundEnd()
+//-----------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------
+
+//rightAnswer()
 //
-// This function allows to check if a round has ended
-function checkRoundEnd() {
-  //if all the titles have exited the screen
-  if (exitedTitles >= NUM_OPTIONS) {
-    //reset the variable
-    exitedTitles = 0;
-    newRound();
+//This function decides what happens when the right Answer is chosen
+function rightAnswer() {
+  //add 1 to the score
+  score++;
+  //play the ding sound
+  correct.play();
+  //change the element's visual
+  $optionsHTML[answerPosition].css({"background-color":"black", "color":"white"});
+  //reset
+  resetState();
+  //call a new round
+  newRound();
+  //call the ending if the score reaches 8
+  if (score == 10) {
+    ending();
   }
 }
 
-//resetState()
+//wrongAnswer()
 //
-//reset the game's state
-function resetState() {
-  exitedTitles = 0;
-  //finish the animations
-  for (let i=0; i<NUM_OPTIONS; i++) {
-    $optionsHTML[i].finish();
-  }
+//This function decides what happens when the wrong Answer is chosen
+function wrongAnswer() {
+  // Otherwise they were wrong, play the beep sound
+  wrong.play();
+  //reset score to 0
+  score = 0;
+  //Display SCORE
+  $("#score").text("SCORE: " + score);
+  // Play the correct answer
+  //retrieve the text element
+  let $correctAnswer = `${answer[0]} ${answer[1]} ${answer[2]} ${answer[3]} ${answer[4]}`;
+  //set random optiosn for pitch
+  let options = {
+    pitch: Math.random(),
+  };
+  //play the sound
+  responsiveVoice.speak($correctAnswer,'UK English Female',options);
 }
 
+//-----------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------
+
+
+//ending()
+//
+//This function decides how the program will behave after the player reach ending.
 function ending() {
   //stop the bgm and play the ending bgm
   bgm.pause();
@@ -377,4 +419,18 @@ function ending() {
       $li.append(title);
     }
   }
+  //stop the program
+  window.stop();
+}
+
+//resetState()
+//
+//reset the game's state
+function resetState() {
+  //finish the animations
+  for (let i=0; i<NUM_OPTIONS; i++) {
+    $optionsHTML[i].stop();
+  }
+  //reset the exitedTitles variable
+  exitedTitles = 0;
 }

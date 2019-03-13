@@ -89,13 +89,13 @@ function setup() {
         wrong.play();
         // Play the correct answer
         //retrieve the text element
-        let $answer = $('#answer').text();
+        let $correctAnswer = $('#answer').text();
         //set random optiosn for pitch
         let options = {
           pitch: Math.random(),
         };
         //play the sound
-        responsiveVoice.speak($('#answer'),'UK English Female',options);
+        responsiveVoice.speak($correctAnswer,'UK English Female',options);
         //reset score to 0
         score = 0;
       }

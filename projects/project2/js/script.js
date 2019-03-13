@@ -12,6 +12,9 @@ author, and this description to match your project!
 //Variable to store the keywords JSON file
 let keywords;
 
+//Variable to store the instruction
+let $instruction;
+
 //Constant to store the number of options
 const NUM_OPTIONS = 8;
 
@@ -31,9 +34,6 @@ let exitedTitles = 0;
 let answer = [];
 //Variable to store the right's answer position in the options array
 let answerPosition;
-
-//Variable to check if player has triggered the animation
-let startPlay = false;
 
 //Variable for the annyang commands
 let commands;
@@ -134,6 +134,12 @@ function startGame() {
   //load the JSON file
   $.getJSON('data/kidKeywords.json', dataLoaded);
 
+  $instruction = $('<div id="instruction">Soak yourself under the heavy rain of popular kids-friendly Youtube video titles! Do they look similar? Yes! Are they the same video? Most likely no. <br> Read your keywords carefully, then choose the right answer by pronoucning its code (from 1 to 8, as you can see).<br> Press ENTER to start selecting.</div>')
+  $('#playground').append($instruction);
+  $instruction.animate({
+    opacity: '+=1'
+  },1000);
+
 }
 
 
@@ -142,7 +148,15 @@ function startGame() {
 // Execute the program after the data has been loaded
 function dataLoaded(data) {
   keywords = data.keywords;
-  newRound();
+  $(document).keypress(function(event) {
+    if (event.which == 13) {
+      $instruction.animate({
+        opacity: '-=1'
+      },500, function() {
+        newRound();
+      });
+    }
+  })
 }
 
 //newRound()
@@ -155,21 +169,14 @@ function newRound() {
 
   displayAnswer();
 
-  $(document).keypress(function(event) {
-    if (event.which == 13) {
-      if (startPlay == false) {
-        //Randomize more titles to fill the options array, along with the correct answer
-        fillOptions();
-        //Display the titles on screen
-        displayOptions();
-        //Start annyang
-        annyang.start();
-        //Animate the titles' movements
-        moveOptions();
-        startPlay = true;
-      }
-    }
-  })
+  //Randomize more titles to fill the options array, along with the correct answer
+  fillOptions();
+  //Display the titles on screen
+  displayOptions();
+  //Start annyang
+  annyang.start();
+  //Animate the titles' movements
+  moveOptions();
 
 }
 
@@ -332,7 +339,6 @@ function checkRoundEnd() {
     //reset the variable
     exitedTitles = 0;
     newRound();
-    startPlay = false;
   }
 }
 
@@ -341,7 +347,6 @@ function checkRoundEnd() {
 //reset the game's state
 function resetState() {
   exitedTitles = 0;
-  startPlay = false;
   //finish the animations
   for (let i=0; i<NUM_OPTIONS; i++) {
     $optionsHTML[i].finish();

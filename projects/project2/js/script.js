@@ -29,9 +29,17 @@ let exitedTitles = 0;
 
 //Array to store the right answer
 let answer = [];
+//Variable to store the right's answer position in the options array
+let answerPosition;
 
 //Variable to check if player has triggered the animation
 let startPlay = false;
+
+//Variable for the annyang commands
+let commands;
+
+//Variable for the score
+let score;
 
 //Setup the program
 $(document).ready(setup);
@@ -42,6 +50,38 @@ $(document).ready(setup);
 // Click on the prompt to start the program
 function setup() {
   $('#click-to-begin').on('click', startGame);
+
+  commands = {
+    //If the player gives up, change to another round, reset score to 0
+    'i give up' : function() {
+      //reset the game's state
+      resetState();
+      //call newRound
+      newRound();
+      //reset score to 0
+      score = 0;
+    },
+
+    '*X': function(X) {
+      console.log(answerPosition + "and" + X);
+      if(X == answerPosition+1) {
+        resetState();
+        newRound();
+        //add 1 to the score
+        score++;
+        console.log("right");
+      } else {
+        // Otherwise they were wrong, so shake the button
+        //$optionsHTML[X].effect('shake');
+        console.log("wrong");
+        //reset score to 0
+        score = 0;
+      }
+      console.log(score+"score");
+    }
+  };
+
+  annyang.addCommands(commands);
 }
 
 // startGame()
@@ -81,13 +121,11 @@ function newRound() {
         fillOptions();
         //Display the titles on screen
         displayOptions();
+        //Start annyang
+        annyang.start();
         //Animate the titles' movements
         moveOptions();
         startPlay = true;
-      }
-      if (roundEnded()) {
-        newRound();
-        startPlay = false;
       }
     }
   })
@@ -124,12 +162,12 @@ function generateCorrectAnswer() {
 function fillOptions() {
   //Put the correct answer in a random position in the options array
   //The position number should not exceeding the number of available options
-  let correctPosition = Math.floor(Math.random()*NUM_OPTIONS);
-  options[correctPosition] = answer;
+  answerPosition = Math.floor(Math.random()*NUM_OPTIONS);
+  options[answerPosition] = answer;
   //Randomize more titles to fill in the options array
   for (let i = 0; i<NUM_OPTIONS; i++) {
     //if the current position is similar to the correct answer's position
-    if (i == correctPosition) {
+    if (i == answerPosition) {
       //ignore it
       i = i;
     }
@@ -178,7 +216,6 @@ function displayAnswer() {
   let $answer = $('<div id="answer"></div>')
   $('#playground').append($answer);
   let $content = `${answer[0]} ${answer[1]} ${answer[2]} ${answer[3]} ${answer[4]}`
-  console.log($content);
   $answer.append($content);
 }
 
@@ -225,20 +262,39 @@ function moveOptions() {
       "margin-top": "+="+distance,
     }, time, function() {
       exitedTitles++;
-      console.log(exitedTitles);
+      checkRoundEnd();
     });
+  }
+
+}
+
+//roundEnded()
+//
+// This function allows to check if a round has ended
+function checkRoundEnd() {
+  //if all the titles have exited the screen
+  if (exitedTitles >= NUM_OPTIONS) {
+    //reset the variable
+    exitedTitles = 0;
+    newRound();
+    startPlay = false;
   }
 }
 
-function roundEnded() {
-  if (exitedTitles >= NUM_OPTIONS) {
-    exitedTitles = 0;
-    for (let i=0; i<NUM_OPTIONS; i++) {
-      $optionsHTML[i].finish();
-      console.log('finish');
-    }
-    return true;
-  } else {
-    return false;
+
+function checkResult() {
+  // //finish the animation
+  // for (let i=0; i<NUM_OPTIONS; i++) {
+  //   $optionsHTML[i].finish();
+  //   console.log('finish');
+  // }
+}
+
+function resetState() {
+  exitedTitles = 0;
+  startPlay = false;
+  //finish the animation
+  for (let i=0; i<NUM_OPTIONS; i++) {
+    $optionsHTML[i].finish();
   }
 }

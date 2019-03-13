@@ -2,22 +2,30 @@
 
 This is the style file for this project.
 
+Image sources:
+https://scutanddestroy.wordpress.com/tag/pixel-art/page/12/
+https://indiependentfish.itch.io/2d-pixel-sky-asset-pack
+
 **********************************************/
+
 body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Calibri', 'Arial', sans-serif;
-  font-size: 13;
+  background: url('../assets/images/cloudy.png') no-repeat top center;
+  background-size: cover;
 }
 
 #playground {
+  margin: 0;
+  padding: 0;
+  font-family: 'Calibri', 'Arial', sans-serif;
+  font-size: 12;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
-  width: 1000px;
-  height: 400px;
-  background-color: rgb(50,50,50);
+  width: 1200px;
+  height: 600px;
+  background: url('../assets/images/playground.png') no-repeat top right;
+  background-size: cover;
 }
 
 #click-to-begin {
@@ -26,4 +34,44 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
+}
+
+#list-titles, #numbers {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+#numbers {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.5;
+}
+
+#list-titles div, #numbers li {
+  display: inline-block;
+  width: 11.5%;
+  margin: 2px;
+  padding: 3px;
+}
+
+#list-titles div {
+  vertical-align: text-top;
+}
+
+#numbers li {
+  list-style-type: none;
+  vertical-align: center;
+  width: 9.7%;
+  margin: 10px;
+}
+
+#numbers li img {
+  width: 70%;
+}
+
+.title {
+  background-color: white;
 }

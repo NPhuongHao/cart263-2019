@@ -48,7 +48,7 @@ function startGame() {
   $(document).keypress(function(event) {
     console.log('keypressed');
     if (event.which == 13) {
-      console.log("omgfg");
+      $("#list-titles").css({"display" : "block"})
       newRound();
     }
   })
@@ -62,6 +62,8 @@ function dataLoaded(data) {
 }
 
 function newRound() {
+  //Remove
+
   //Pick random keywords from the list to form an array that is the correct answer
   for (let i=0; i<NUM_KEYWORDS; i++) {
     //Choose a random keyword from the list
@@ -96,18 +98,18 @@ function newRound() {
     //if not, create a new array that has the first element similar to the correct answer's first element
     //this is to create a degree of confusion
     else {
-      optionRandomizer(i)
+      options[i] = optionRandomizer();
     }
   }
 
-  console.log(options);
+  addOptions();
 
 }
 
 //optionRandomizer()
 //
 // This function is to generate a random array that has the same first element with the answer array
-function optionRandomizer(code) {
+function optionRandomizer() {
   //create an array that store this option
   let currentOption = [];
   //assign the same first element of the answer array to this option's array
@@ -119,7 +121,7 @@ function optionRandomizer(code) {
     //Compare this element to the previous element
     for (let t=0; t<i; t++){
       //if the current element is similar to the element in comparison
-      if (answer[t] === answer[i]) {
+      if (currentOption[t] == currentOption[i]) {
         //redo the process
         i--;
       } else {
@@ -129,5 +131,21 @@ function optionRandomizer(code) {
     }
   }
   //add this array to the options array
-  options[code] = currentOption;
+  return currentOption;
+}
+
+//addOptions()
+//
+// Display the title options
+function addOptions() {
+  let $ul = $('<div id="list-titles"></div>');
+  $('#playground').append($ul);
+  for (let i=0; i<NUM_OPTIONS; i++) {
+    let $li = $('<div class="title"></div>')
+    $ul.append($li);
+    //write out the title
+    let title = `${options[i][0]} ${options[i][1]} ${options[i][2]} ${options[i][3]} ${options[i][4]}`
+    //display the title using append()
+    $li.append(title);
+  }
 }

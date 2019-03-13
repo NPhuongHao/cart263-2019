@@ -24,7 +24,7 @@ body {
   padding: 0;
   font-family: 'ArcadeClassic', 'Calibri', 'Arial', sans-serif;
   font-size: 12;
-  letter-spacing: 2px;
+  letter-spacing: 5px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -36,12 +36,13 @@ body {
   overflow: hidden;
 }
 
-#click-to-begin {
+hgroup {
   color: white;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
+  text-align: center;
   z-index: 9999;
 }
 
@@ -94,7 +95,7 @@ body {
   bottom: 0px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: rgba(0,0,0,.7);
+  background-color: rgba(0,0,0,1);
   padding: 20px;
   font-size: 18px;
   text-align: center;

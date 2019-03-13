@@ -41,6 +41,9 @@ let commands;
 //Variable for the score
 let score = 0;
 
+//Variable for the minimum animation duration of the titles
+let minimumDuration = 10000;
+
 //Setup the program
 $(document).ready(setup);
 
@@ -67,14 +70,20 @@ function setup() {
     },
 
     '*X': function(X) {
-      console.log(answerPosition + "and" + X);
       if(X == answerPosition+1) {
-        //play the ding sound
-        correct.play();
-        resetState();
-        newRound();
         //add 1 to the score
         score++;
+        //call the ending if the score reaches 20
+        if (score == 5) {
+          console.log(score);
+          ending();
+        }
+        //play the ding sound
+        correct.play();
+        //reset
+        resetState();
+        //call a new round
+        newRound();
       } else {
         // Otherwise they were wrong, play the beep sound
         wrong.play();
@@ -86,11 +95,10 @@ function setup() {
           pitch: Math.random(),
         };
         //play the sound
-        responsiveVoice.speak($answer,'UK English Female',options);
+        responsiveVoice.speak($('#answer'),'UK English Female',options);
         //reset score to 0
         score = 0;
       }
-      console.log(score+"score");
     }
   };
 
@@ -102,8 +110,14 @@ function setup() {
 // Remove the click to begin and set up the playground
 function startGame() {
   //remove the Click
-  $('#click-to-begin').remove();
-  $('#numbers').css({"opacity" : "0.5"})
+  $('hgroup').animate({
+    opacity: '-=1'
+  }, 1000, function() {
+    $('hgroup').remove();
+  });
+  $('#numbers').animate({
+    opacity: '+=0.5'
+  },1000);
 
   //load the JSON file
   $.getJSON('data/kidKeywords.json', dataLoaded);
@@ -225,11 +239,25 @@ function optionRandomizer() {
 //
 // This function displays the right answer on screen before starting a new round
 function displayAnswer() {
-  $('#answer').remove();
+  //remove the Click
+  $('#answer').animate({
+    opacity: '-=1'
+  }, 1000, function() {
+    $('#answer').remove();
+  });
+  //Add the div element
   let $answer = $('<div id="answer"></div>')
   $('#playground').append($answer);
+  //Assemble the answer array's elements into a string
   let $content = `${answer[0]} ${answer[1]} ${answer[2]} ${answer[3]} ${answer[4]}`
+  //Add the string to the div element
   $answer.append($content);
+  //Keep its initial opacity at 0
+  $answer.css("opacity", "0");
+  //Increase its opacity gradually with animate()
+  $answer.animate({
+    opacity: '+=1'
+  },1000);
 }
 
 //displayOptions()
@@ -267,7 +295,7 @@ function moveOptions() {
   //Assign each HTML element to a $optionsHTML element and animate it
   for (let i=0; i<NUM_OPTIONS; i++) {
     //set up a random duration from 10000ms to 15000ms
-    let time = Math.random()*5000+10000;
+    let time = Math.random()*5000+ minimumDuration ;
     //Retrieve the HTML element according to the current array element
     $optionsHTML[i] = $('#title-code-'+i);
     //Increase the HTML element's top margin so that it looks like it's moving downward
@@ -281,7 +309,7 @@ function moveOptions() {
 
 }
 
-//roundEnded()
+//checkRoundEnd()
 //
 // This function allows to check if a round has ended
 function checkRoundEnd() {
@@ -294,20 +322,32 @@ function checkRoundEnd() {
   }
 }
 
-
-function checkResult() {
-  // //finish the animation
-  // for (let i=0; i<NUM_OPTIONS; i++) {
-  //   $optionsHTML[i].finish();
-  //   console.log('finish');
-  // }
-}
-
+//resetState()
+//
+//reset the game's state
 function resetState() {
   exitedTitles = 0;
   startPlay = false;
-  //finish the animation
+  //finish the animations
   for (let i=0; i<NUM_OPTIONS; i++) {
     $optionsHTML[i].finish();
+  }
+}
+
+function ending() {
+  minimumDuration = 5000;
+  //create a div element to contain the titles
+  let $ul = $('<div id="list-titles"></div>');
+  $('#playground').append($ul);
+
+  //create a new element for each title
+  for (let i=0; i<NUM_OPTIONS; i++) {
+    let $li = $('<div class="title" id="title-code-'+i+'"></div>');
+    //display this element inside the parent div element
+    $ul.append($li);
+    //write out the title
+    let title = `${options[i][0]} ${options[i][1]} ${options[i][2]} ${options[i][3]} ${options[i][4]}`
+    //display the title using append()
+    $li.append(title);
   }
 }

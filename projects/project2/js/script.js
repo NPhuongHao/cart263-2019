@@ -39,7 +39,7 @@ let startPlay = false;
 let commands;
 
 //Variable for the score
-let score;
+let score = 0;
 
 //Setup the program
 $(document).ready(setup);
@@ -50,6 +50,10 @@ $(document).ready(setup);
 // Click on the prompt to start the program
 function setup() {
   $('#click-to-begin').on('click', startGame);
+
+  //load the sound files
+  var wrong = new Audio('../assets/sounds/wrong.mp3');
+  var correct = new Audio('../assets/sounds/correct.mp3')
 
   commands = {
     //If the player gives up, change to another round, reset score to 0
@@ -65,15 +69,15 @@ function setup() {
     '*X': function(X) {
       console.log(answerPosition + "and" + X);
       if(X == answerPosition+1) {
+        //play the ding sound
+        correct.play();
         resetState();
         newRound();
         //add 1 to the score
         score++;
-        console.log("right");
       } else {
-        // Otherwise they were wrong, so shake the button
-        //$optionsHTML[X].effect('shake');
-        console.log("wrong");
+        // Otherwise they were wrong, play the beep sound
+        wrong.play();
         //reset score to 0
         score = 0;
       }

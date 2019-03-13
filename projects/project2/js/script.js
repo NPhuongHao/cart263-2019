@@ -24,8 +24,14 @@ let options = [];
 //Array to store the html element of each option
 let $optionsHTML = [];
 
+//variable to check the number of titles that have exited the screen
+let exitedTitles = 0;
+
 //Array to store the right answer
 let answer = [];
+
+//Variable to check if player has triggered the animation
+let startPlay = false;
 
 //Setup the program
 $(document).ready(setup);
@@ -49,12 +55,6 @@ function startGame() {
   //load the JSON file
   $.getJSON('data/kidKeywords.json', dataLoaded);
 
-  $(document).keypress(function(event) {
-    console.log('keypressed');
-    if (event.which == 13) {
-      newRound();
-    }
-  })
 }
 
 
@@ -63,14 +63,44 @@ function startGame() {
 // Execute the program after the data has been loaded
 function dataLoaded(data) {
   keywords = data.keywords;
+  newRound();
 }
 
 
 function newRound() {
+
   //Pick random keywords from the list to form an array that is the correct answer
+  generateCorrectAnswer();
+
+  displayAnswer();
+
+  $(document).keypress(function(event) {
+    if (event.which == 13) {
+      if (startPlay == false) {
+        //Randomize more titles to fill the options array, along with the correct answer
+        fillOptions();
+        //Display the titles on screen
+        displayOptions();
+        //Animate the titles' movements
+        moveOptions();
+        startPlay = true;
+      }
+      if (roundEnded()) {
+        newRound();
+        startPlay = false;
+      }
+    }
+  })
+
+}
+
+//generateCorrectAnswer()
+//
+//This function picks random keywords from the list to form an array that is the correct answer
+function generateCorrectAnswer() {
   for (let i=0; i<NUM_KEYWORDS; i++) {
     //Choose a random keyword from the list
-    let keyword = keywords[Math.floor(Math.random()*keywords.length)]
+    let keyword = keywords[Math.floor(Math.random()*keywords.length)];
     //Add the keyword to the answer array
     answer[i] = keyword;
     //compare this element to the other previous elements
@@ -85,13 +115,18 @@ function newRound() {
       }
     }
   }
+}
 
-  //Put that answer in a random position in the options array
-  //The position should not exceeding the number of available options
+
+//fillOptions()
+//
+//This function fills the options array with random options, along with the correct answer
+function fillOptions() {
+  //Put the correct answer in a random position in the options array
+  //The position number should not exceeding the number of available options
   let correctPosition = Math.floor(Math.random()*NUM_OPTIONS);
   options[correctPosition] = answer;
-
-  //Randomize 7 more titles to fill the options array
+  //Randomize more titles to fill in the options array
   for (let i = 0; i<NUM_OPTIONS; i++) {
     //if the current position is similar to the correct answer's position
     if (i == correctPosition) {
@@ -104,15 +139,7 @@ function newRound() {
       options[i] = optionRandomizer();
     }
   }
-
-  //Display the titles on screen
-  addOptions();
-
-  //Animate the titles' movements
-  moveOptions();
-
 }
-
 
 
 //optionRandomizer()
@@ -143,11 +170,22 @@ function optionRandomizer() {
   return currentOption;
 }
 
+//displayAnswer()
+//
+// This function displays the right answer on screen before starting a new round
+function displayAnswer() {
+  $('#answer').remove();
+  let $answer = $('<div id="answer"></div>')
+  $('#playground').append($answer);
+  let $content = `${answer[0]} ${answer[1]} ${answer[2]} ${answer[3]} ${answer[4]}`
+  console.log($content);
+  $answer.append($content);
+}
 
-//addOptions()
+//displayOptions()
 //
 // Display the title options
-function addOptions() {
+function displayOptions() {
 
   //remove the old elements
   $('#list-titles').remove();
@@ -176,12 +214,31 @@ function addOptions() {
 function moveOptions() {
   //The distance by which each title move is equa to the playground's height
   let distance = $('#playground').css("height");
+  //Assign each HTML element to a $optionsHTML element and animate it
   for (let i=0; i<NUM_OPTIONS; i++) {
-    let time = Math.floor(Math.random()*5000+8000);
-    console.log(time);
+    //set up a random duration from 10000ms to 15000ms
+    let time = Math.random()*5000+10000;
+    //Retrieve the HTML element according to the current array element
     $optionsHTML[i] = $('#title-code-'+i);
+    //Increase the HTML element's top margin so that it looks like it's moving downward
     $optionsHTML[i].animate({
       "margin-top": "+="+distance,
-    }, time, function() {});
+    }, time, function() {
+      exitedTitles++;
+      console.log(exitedTitles);
+    });
+  }
+}
+
+function roundEnded() {
+  if (exitedTitles >= NUM_OPTIONS) {
+    exitedTitles = 0;
+    for (let i=0; i<NUM_OPTIONS; i++) {
+      $optionsHTML[i].finish();
+      console.log('finish');
+    }
+    return true;
+  } else {
+    return false;
   }
 }

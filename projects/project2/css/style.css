@@ -8,6 +8,12 @@ https://indiependentfish.itch.io/2d-pixel-sky-asset-pack
 
 **********************************************/
 
+@font-face {
+  font-family: ArcadeClassic;
+  src: url('../assets/fonts/ARCADECLASSIC.TTF');
+}
+
+
 body {
   background: url('../assets/images/cloudy.png') no-repeat top center;
   background-size: cover;
@@ -16,8 +22,9 @@ body {
 #playground {
   margin: 0;
   padding: 0;
-  font-family: 'Calibri', 'Arial', sans-serif;
+  font-family: 'ArcadeClassic', 'Calibri', 'Arial', sans-serif;
   font-size: 12;
+  letter-spacing: 2px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -43,6 +50,7 @@ body {
   padding: 0;
   margin: 0;
   text-align: center;
+  font-family: 'Calibri', 'Arial', sans-serif;
 }
 
 
@@ -78,4 +86,18 @@ body {
 
 .title {
   background-color: white;
+}
+
+#answer {
+  color: white;
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0,0,0,.7);
+  padding: 20px;
+  font-size: 18px;
+  text-align: center;
+  min-width: 100%;
+  z-index: 9999;
 }

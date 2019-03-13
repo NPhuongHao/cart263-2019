@@ -21,6 +21,9 @@ const NUM_KEYWORDS = 5;
 //Array to store the options
 let options = [];
 
+//Array to store the html element of each option
+let $optionsHTML = [];
+
 //Array to store the right answer
 let answer = [];
 
@@ -41,6 +44,7 @@ function setup() {
 function startGame() {
   //remove the Click
   $('#click-to-begin').remove();
+  $('#numbers').css({"opacity" : "0.5"})
 
   //load the JSON file
   $.getJSON('data/kidKeywords.json', dataLoaded);
@@ -48,11 +52,11 @@ function startGame() {
   $(document).keypress(function(event) {
     console.log('keypressed');
     if (event.which == 13) {
-      $("#list-titles").css({"display" : "block"})
       newRound();
     }
   })
 }
+
 
 // dataLoaded()
 //
@@ -61,9 +65,8 @@ function dataLoaded(data) {
   keywords = data.keywords;
 }
 
-function newRound() {
-  //Remove
 
+function newRound() {
   //Pick random keywords from the list to form an array that is the correct answer
   for (let i=0; i<NUM_KEYWORDS; i++) {
     //Choose a random keyword from the list
@@ -102,9 +105,15 @@ function newRound() {
     }
   }
 
+  //Display the titles on screen
   addOptions();
 
+  //Animate the titles' movements
+  moveOptions();
+
 }
+
+
 
 //optionRandomizer()
 //
@@ -134,18 +143,45 @@ function optionRandomizer() {
   return currentOption;
 }
 
+
 //addOptions()
 //
 // Display the title options
 function addOptions() {
+
+  //remove the old elements
+  $('#list-titles').remove();
+
+
+  //create a div element to contain the titles
   let $ul = $('<div id="list-titles"></div>');
   $('#playground').append($ul);
+
+  //create a new element for each title
   for (let i=0; i<NUM_OPTIONS; i++) {
-    let $li = $('<div class="title"></div>')
+    let $li = $('<div class="title" id="title-code-'+i+'"></div>');
+    //display this element inside the parent div element
     $ul.append($li);
     //write out the title
     let title = `${options[i][0]} ${options[i][1]} ${options[i][2]} ${options[i][3]} ${options[i][4]}`
     //display the title using append()
     $li.append(title);
+  }
+}
+
+
+//addOptions()
+//
+// Animate the title options
+function moveOptions() {
+  //The distance by which each title move is equa to the playground's height
+  let distance = $('#playground').css("height");
+  for (let i=0; i<NUM_OPTIONS; i++) {
+    let time = Math.floor(Math.random()*5000+8000);
+    console.log(time);
+    $optionsHTML[i] = $('#title-code-'+i);
+    $optionsHTML[i].animate({
+      "margin-top": "+="+distance,
+    }, time, function() {});
   }
 }

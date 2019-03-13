@@ -26,6 +26,7 @@ body {
   height: 600px;
   background: url('../assets/images/playground.png') no-repeat top right;
   background-size: cover;
+  overflow: hidden;
 }
 
 #click-to-begin {
@@ -34,6 +35,7 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
+  z-index: 9999;
 }
 
 #list-titles, #numbers {
@@ -43,11 +45,13 @@ body {
   text-align: center;
 }
 
+
 #numbers {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  opacity: 0.5;
+  opacity: 0;
+  z-index: -999;
 }
 
 #list-titles div, #numbers li {

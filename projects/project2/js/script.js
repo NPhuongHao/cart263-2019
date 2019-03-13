@@ -61,10 +61,10 @@ function setup() {
   $('#click-to-begin').on('click', startGame);
 
   //load the sound files
-  wrong = new Audio('../assets/sounds/wrong.mp3');
-  correct = new Audio('../assets/sounds/correct.mp3');
-  bgm = new Audio('../assets/sounds/crunch.mp3');
-  endingbgm = new Audio('../assets/sounds/Ending.mp3');
+  wrong = new Audio('./assets/sounds/wrong.mp3');
+  correct = new Audio('./assets/sounds/correct.mp3');
+  bgm = new Audio('./assets/sounds/Nursery.mp3');
+  endingbgm = new Audio('./assets/sounds/Ending.mp3');
 
   //Add annyang commands
   commands = {
@@ -82,8 +82,8 @@ function setup() {
       if(X == answerPosition+1) {
         //add 1 to the score
         score++;
-        //call the ending if the score reaches 10
-        if (score == 10) {
+        //call the ending if the score reaches 8
+        if (score == 8) {
           console.log(score);
           ending();
         }

@@ -81,10 +81,6 @@ function gotData(data) {
     }
   }
 
-  $(document).click(function() {
-    location.reload();
-  })
-
 
   // Now we can construct our description with a template string
   // We have the basic structure of a sentence and we substitute in the
@@ -94,7 +90,10 @@ function gotData(data) {
   // Finally, we add it to the page and hey presto!
   $('body').append(description)
 
-
+  // Allow user to refresh page by clicking on it
+  $(document).click(function() {
+    location.reload();
+  })
 }
 
 // getRandomElement ()

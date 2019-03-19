@@ -31,6 +31,7 @@ $(document).ready(function() {
   // the location of the file, and a function to call when the data
   // is available...
   $.getJSON('data/character.json', function(data) {
+    // Get a random character element from the characters array in the character JSON
     character = getRandomElement(data.characters).name;
   });
   $.getJSON('data/data.json', gotData);
@@ -58,9 +59,31 @@ function gotData(data) {
 
   // Now the cat
   cat = getRandomElement(data.cats);
-
   // Same again for room
   room = getRandomElement(data.rooms);
+
+  // Assume these nouns start with a consonant
+  // Article for the cat
+  let article = "a";
+  // Article for the room
+  let article2 = "a";
+  //Check with every elements in the vowels array
+  for (var i=0; i<vowels.length; i++) {
+    // Check if the first letter of the cat is a vowel
+    if (cat.charAt(0) === vowels[i]) {
+      //If so, change its article into "an"
+      article = "an";
+    }
+    // Check if the first letter of the room is a vowel
+    if (room.charAt(0) === vowels[i]) {
+      //If so, change its article into "an"
+      article2 = "an";
+    }
+  }
+
+  $(document).click(function() {
+    location.reload();
+  })
 
 
   // Now we can construct our description with a template string

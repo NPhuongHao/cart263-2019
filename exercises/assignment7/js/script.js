@@ -14,9 +14,9 @@ synthesis and soundfile playing abilities.
 const NOTE_TEMPO = 500;
 // Time for one beat
 const DRUM_TEMPO = 250;
-// Attack time for a note (in seconds)
+// Attack time for a note (in seconds) = fadeIn
 const ATTACK = 0.1;
-// Release time for a note (in seconds)
+// Release time for a note (in seconds) = fadeOut
 const RELEASE = 0.1;
 
 // We need an array of the possible notes to play as frequencies (in Hz)
@@ -39,6 +39,9 @@ let hihat;
 let pattern = ['x','*','xo*',' ','x','x','xo','*'];
 // Which beat of the pattern we're at right now
 let patternIndex = 0;
+
+//boolean variable to check if the music is already played
+let musicIsPlayed = false;
 
 // setup()
 //
@@ -85,10 +88,15 @@ function setup() {
 // Using this to start the note and drum sequences to get around
 // user interaction (and to give the files time to load)
 function mousePressed() {
-  // Start an interval for the notes
-  setInterval(playNote,NOTE_TEMPO);
-  // Start an interval for the drums
-  setInterval(playDrum,DRUM_TEMPO);
+  //If the music is not already played
+  if (!musicIsPlayed) {
+    // Start an interval for the notes
+    setInterval(playNote,NOTE_TEMPO);
+    // Start an interval for the drums
+    setInterval(playDrum,DRUM_TEMPO);
+    //set the boolean value to true
+    musicIsPlayed = true;
+  }
 }
 
 // playNote

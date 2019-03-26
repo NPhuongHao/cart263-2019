@@ -18,6 +18,8 @@ const DRUM_TEMPO = 250;
 const ATTACK = 0.1;
 // Release time for a note (in seconds) = fadeOut
 const RELEASE = 0.1;
+// The length of a sequence during which the synth is played (including the pause)
+const SEQUENCE_LENGTH = 9;
 
 // We need an array of the possible notes to play as frequencies (in Hz)
 // A Major =  A, B, C♯, D, E, F♯, and G♯
@@ -36,9 +38,12 @@ let hihat;
 // Each array element is one beat and has a string with each
 // drum to play for that beat
 // x = kick, o = snare, * = hihat
-let pattern = ['x','*','xo*',' ','x','x','xo','*'];
+let pattern = ['x','*','xo','*','x','x','xo','*'];
 // Which beat of the pattern we're at right now
 let patternIndex = 0;
+
+// The distance between the last pause and the current note
+let rhythmIndex = 0;
 
 //boolean variable to check if the music is already played
 let musicIsPlayed = false;
@@ -103,12 +108,19 @@ function mousePressed() {
 //
 // Chooses a random frequency and assigns it to the synth
 function playNote() {
-  // Pick a random frequency from the array
-  let frequency = frequencies[Math.floor(Math.random() * frequencies.length)];
-  // Set the synth's frequency
-  synth.frequency = frequency;
-  // If it's note already play, play the synth
-  synth.play();
+  //Pause the synth 2 beats before the sequence ends
+  if (rhythmIndex >= SEQUENCE_LENGTH-2) {
+    synth.pause();
+  } else {//Play it normally otherwise
+    // Pick a random frequency from the array
+    let frequency = frequencies[Math.floor(Math.random() * frequencies.length)];
+    // Set the synth's frequency
+    synth.frequency = frequency;
+    // If it's note already play, play the synth
+    synth.play();
+  }
+  //Advance the rhythmIndex by 1 unit
+  rhythmIndex = (rhythmIndex + 1) % SEQUENCE_LENGTH;
 }
 
 // playDrum()

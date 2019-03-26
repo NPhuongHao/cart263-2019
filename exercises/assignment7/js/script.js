@@ -19,7 +19,7 @@ const ATTACK = 0.1;
 // Release time for a note (in seconds) = fadeOut
 const RELEASE = 0.1;
 // The length of a sequence during which the synth is played (including the pause)
-const SEQUENCE_LENGTH = 9;
+const SEQUENCE_LENGTH = 8;
 
 // We need an array of the possible notes to play as frequencies (in Hz)
 // A Major =  A, B, C♯, D, E, F♯, and G♯
@@ -38,7 +38,7 @@ let hihat;
 // Each array element is one beat and has a string with each
 // drum to play for that beat
 // x = kick, o = snare, * = hihat
-let pattern = ['x','*','xo','*','x','x','xo','*'];
+let pattern = ['x','o','xo','*','x','x','xo*','o'];
 // Which beat of the pattern we're at right now
 let patternIndex = 0;
 
@@ -96,7 +96,7 @@ function mousePressed() {
   //If the music is not already played
   if (!musicIsPlayed) {
     // Start an interval for the notes
-    setInterval(playNote,NOTE_TEMPO);
+    setTimeout(playNote,NOTE_TEMPO*Math.floor(Math.random() * 3+1));
     // Start an interval for the drums
     setInterval(playDrum,DRUM_TEMPO);
     //set the boolean value to true
@@ -108,6 +108,7 @@ function mousePressed() {
 //
 // Chooses a random frequency and assigns it to the synth
 function playNote() {
+  // If it's note already play, play the synth
   //Pause the synth 2 beats before the sequence ends
   if (rhythmIndex >= SEQUENCE_LENGTH-2) {
     synth.pause();
@@ -116,11 +117,18 @@ function playNote() {
     let frequency = frequencies[Math.floor(Math.random() * frequencies.length)];
     // Set the synth's frequency
     synth.frequency = frequency;
-    // If it's note already play, play the synth
+    //Add distortion effect for a more 8-bit feel
+    var distortion = new Pizzicato.Effects.Distortion({
+        gain: 0.2
+    });
+
+    synth.addEffect(distortion);
     synth.play();
   }
   //Advance the rhythmIndex by 1 unit
   rhythmIndex = (rhythmIndex + 1) % SEQUENCE_LENGTH;
+  //Play another note with different duration
+  setTimeout(playNote,NOTE_TEMPO*Math.floor(Math.random() * 3+1));
 }
 
 // playDrum()

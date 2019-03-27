@@ -96,7 +96,7 @@ function mousePressed() {
   //If the music is not already played
   if (!musicIsPlayed) {
     // Start an interval for the notes
-    setTimeout(playNote,NOTE_TEMPO*Math.floor(Math.random() * 3+1));
+    setTimeout(playNote,NOTE_TEMPO*Math.floor(Math.random() * 2+1));
     // Start an interval for the drums
     setInterval(playDrum,DRUM_TEMPO);
     //set the boolean value to true
@@ -128,7 +128,7 @@ function playNote() {
   //Advance the rhythmIndex by 1 unit
   rhythmIndex = (rhythmIndex + 1) % SEQUENCE_LENGTH;
   //Play another note with different duration
-  setTimeout(playNote,NOTE_TEMPO*Math.floor(Math.random() * 3+1));
+  setTimeout(playNote,NOTE_TEMPO*Math.floor(Math.random() * 2+1));
 }
 
 // playDrum()

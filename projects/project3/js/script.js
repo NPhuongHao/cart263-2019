@@ -13,16 +13,17 @@ author, and this description to match your project!
 //resources = [Wolf's bane, Food, Money, Livestock, Villager, Risk]
 let resources = [0,2,2,2,2,0];
 let resourceActions = [0,0,0,0,0,0];
-let eventGain = ["good week", "collect", "harvest", "breeding"];
-let eventTrade = ["generous merchant", "difficult merchant", "witch", "farmer", "local marriage", "lost wolfie"];
-let eventLoss = ["call to arms", "wolf's demands", "cross-town marriage", "infestation"];
-let eventSpecial = ["wolf's debts", "wolf attack", "famine", "greed", "desperation", "BIG WOLF"];
-let wolfsbane = ["wolf's bane"];
 let choices = [[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]];
 
 let eventOfWeek;
 let eventLastWeek;
 let eventLastTwoWeek;
+
+let $eventGain;
+let $eventLoss;
+let $eventTrade;
+let $eventSpecial;
+let $eventWolfsBane;
 
 let week = 0;
 
@@ -61,23 +62,37 @@ function startGame() {
     opacity: '+=1'
   },1000);
 
+  $.getJSON('data/events.json', dataLoaded);
+}
+
+// dataLoaded()
+//
+// Execute the program after the data has been loaded
+function dataLoaded(data) {
+
+  $eventGain = data.eventGain;
+  $eventLoss = data.eventLoss;
+  $eventTrade = data.eventTrade;
+  $eventSpecial = data.eventSpecial;
+  $eventWolfsBane = data.eventWolfsBane;
+
   newRound();
 }
 
 function newRound() {
   $($nextRound).remove();
-  week++;
-  choices = [[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]];
 
-  chooseEvent();
-  executeEvent(eventOfWeek);
-  result(0);
+  // chooseEvent();
+  // executeEvent(eventOfWeek);
+  // result(0);
 
   $nextRound = $('<div id="nextRound">Next round</div>')
   $('body').append($nextRound);
-  $($nextRound).on('click', newRound);
   console.log("NEW ROUND" + week);
+  week++;
+  $($nextRound).on('click', newRound);
 }
+
 
 
 function chooseEvent() {

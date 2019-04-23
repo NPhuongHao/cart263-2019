@@ -1,0 +1,275 @@
+{
+  "eventGain": [
+    {
+      "id":"good week",
+      "title":"A good week all in all",
+      "description": "Bracing yourself for the next trials",
+      "option1": {
+        "action": [0,0,2,0,0,0],
+        "description": "Keep the coins"
+      },
+      "option2": {
+        "action": [0,2,0,0,0,0],
+        "description": "Buy more food"
+      },
+      "option3": {
+        "action": [0,0,0,2,0,0],
+        "description": "Invest on livestock"
+      }
+    },
+    {
+      "id": "collect",
+      "title": "Collecting more resources",
+      "description": "They should thank you for keeping them alive",
+      "option1": {
+        "action": [0,0,1,0,0,0],
+        "description": "Collect money"
+      },
+      "option2": {
+        "action": [0,1,0,0,0,0],
+        "description": "Add food in your storage"
+      },
+      "option3": {
+        "action": [0,0,0,0,0,0],
+        "description": "Let them keep their stuffs for now"
+      }
+    },
+    {
+      "id": "harvest",
+      "title": "Harvest season",
+      "description":"The weather and your crops are getting along",
+      "option1": {
+        "action":[0,3,0,0,0,0],
+        "description":"Farm intensively"
+      },
+      "option2": {
+        "action":[0,1,0,0,0,0],
+        "description": "Farm moderately"
+      },
+      "option3": {
+        "action":[0,0,0,0,0,0],
+        "description": "Harvesting is not currently on our plate"
+      }
+    },
+    {
+      "id": "breeding",
+      "title": "Breeding season",
+      "description":"Your livestock are quite active recently",
+      "option1": {
+        "action":[0,0,0,2,0,0],
+        "description": "Encourage the breeding"
+      },
+      "option2": {
+        "action": [0,0,0,1,0,0],
+        "description": "Breed moderately"
+      },
+      "option3": {
+        "action":[0,0,0,0,0,0],
+        "description": "We don't need more animals"
+      }
+    }
+  ],
+  "eventLoss": [
+    {
+      "id": "call to arms",
+      "title": "Call to arms!",
+      "description": "The country demands your sacrifice",
+      "option1": {
+        "action":[0,0,-2,0,0,0],
+        "description":"Fulfill the war bonds"
+      },
+      "option2": {
+        "action":[0,-2,0,0,0,0],
+        "description":"Send supply caches"
+      },
+      "option3": {
+        "action":[0,0,0,0,-2,0],
+        "description":"Your people are ready to conscript"
+      }
+    },
+    {
+      "id": "wolf's demands",
+      "title": "Demands of the wolfs",
+      "description": "They only leave with their due",
+      "option1": {
+        "action":[0,0,0,-2,0,0],
+        "description": "Offer livestock"
+      },
+      "option2": {
+        "action":[0,0,0,0,-1,0],
+        "description": "Offer a villager"
+      },
+      "option3": {
+        "action": [0,0,0,0,0,1],
+        "description": "There is nothing to offer",
+        "warning": "Insert 'Debts for the Wolf' into the next events"
+      }
+    },
+    {
+      "id": "infestation",
+      "title": "Food infestation",
+      "description": "Something has gone wrong in the food",
+      "option1": {
+        "action":[[0,1,0,0,0,0], [0,2,0,0,0,0], [0,3,0,0,0,0]],
+        "description": "Salvage the rest"
+      },
+      "option2": {
+        "action":[0,-1,-2,0,0,0],
+        "description": "Hire a professional"
+      },
+      "option3": {
+        "action": [[0,0,0,0,0,0], [0,0,0,0,-1,0], [0,0,0,0,-2,0], [0,0,0,0,-3,0]],
+        "description": "Nothing that cannot be eaten"
+      }
+    }
+  ],
+  "eventTrade": [
+
+  ]
+}
+
+
+
+{
+  "eventGain": [
+    {
+      "id": "good week",
+      "title": "A good week all in all",
+      "description": "Bracing yourself for the next trials",
+      "option1": {
+        "action": [0, 0, 2, 0, 0, 0],
+        "description": "Keep the coins"
+      },
+      "option2": {
+        "action": [0, 2, 0, 0, 0, 0],
+        "description": "Buy more food"
+      },
+      "option3": {
+        "action": [0, 0, 0, 2, 0, 0],
+        "description": "Invest on livestock"
+      }
+    },
+    {
+      "id": "collect",
+      "title": "Collecting resources",
+      "description": "They should thank you for keeping them alive",
+      "option1": {
+        "action": [0, 0, 1, 0, 0, 0],
+        "description": "Collect money"
+      },
+      "option2": {
+        "action": [0, 1, 0, 0, 0, 0],
+        "description": "Add food in your storage"
+      },
+      "option3": {
+        "action": [0, 0, 0, 0, 0, 0],
+        "description": "Let them keep their stuffs for now"
+      },
+    },
+    {
+      "id": "harvest",
+    },
+    {
+      "id": "breeding",
+    }
+  ],
+
+}
+"eventTrade": [{
+    "id": "generous merchant",
+  },
+  {
+    "id": "difficult merchant",
+  },
+  {
+    "id": "farmer",
+  },
+  {
+    "id": "witch",
+  },
+  {
+    "id": "local marriage",
+  },
+  {
+    "id": "lost puppy",
+  },
+],
+
+"eventLoss": [
+  {
+    "id": "call to arms",
+  },
+  {
+    "id": "wolf's demands",
+  },
+  {
+    "id": "cross-town marriage",
+  },
+  {
+    "id": "infestation",
+  },
+],
+
+"eventWolfsBane": [{
+  "id": "wolf's bane",
+}],
+
+"eventSpecial": [{
+    "id": "wolf's debts",
+  },
+  {
+    "id": "wolf attack",
+  },
+  {
+    "id": "famine",
+  },
+  {
+    "id": "greed",
+  },
+  {
+    "id": "desperation",
+  },
+  {
+    "id": "BIG WOLF",
+  },
+  {
+    "id": "cross-town marriage",
+    "title": "An intervillage marriage",
+    "description": "You should have a word or two"
+  },
+]
+
+{
+  "keywords": [
+    "2019",
+    "Surprise",
+    "Funny",
+    "Nursery Songs",
+    "Nursery Rhymes",
+    "Baby Songs",
+    "Learning Alphabet",
+    "Learning Colors",
+    "Learning Numbers",
+    "Wrong Heads",
+    "Wrong Legs",
+    "Cartoon",
+    "Educational Video",
+    "Bad Baby",
+    "Finger Family",
+    "Peppa Pig",
+    "Play Doh",
+    "Pocoyo",
+    "Minecraft",
+    "Kinder",
+    "Little Baby Bum",
+    "Halloween",
+    "Christmas",
+    "Elsa",
+    "Snow White",
+    "Spiderman",
+    "Batman",
+    "Disney Characters",
+    "Princess",
+    "Superhero"
+  ]
+}

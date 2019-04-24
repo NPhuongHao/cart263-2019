@@ -11,7 +11,7 @@ class Event {
   assignOptions() {
     //option description
     for (var i = 0; i<3; i++) {
-      var $description = $('<div id="option'+i+'">'+ this.options[i].description + '</div>');
+      var $description = $('<div id="optionContent'+i+'">'+ this.options[i].description + '</div>');
       var currentEvent = this.id;
       var requirements = new Requirements(currentEvent, i);
       var rewards = new Rewards(currentEvent, i);

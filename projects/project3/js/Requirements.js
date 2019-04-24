@@ -107,12 +107,12 @@ class Requirements {
     }
     //Loss: infestation
     if (this.currentEvent === "infestation") {
-      if (this.option = 0) {
+      if (this.option == 0) {
         // {"description": "Salvage the rest"}
         if (0 < resources[1] < 3) {
           //food required = 1 if player's food resource is too low
           this.food = 1;
-        } else if (resources[0] == 0) {
+        } else if (resources[1] == 0) {
           //ask for no food if player doesn't have any food card
           this.food = 0;
         } else {
@@ -133,6 +133,7 @@ class Requirements {
           this.villager = Math.floor(2/3*resources[4]);
         }
       }
+      console.log(this);
     }
 
     //if the current event is a wolfsbane event
@@ -149,23 +150,14 @@ class Requirements {
 
   //check Requirements
   check() {
-    console.log("startchecking");
     if (this.foodMoney == 0) {
-      console.log("requirementcheckd")
       if (answer [0] == this.wolfsbane) {
-        console.log('1');
         if (answer[1] == this.food) {
-          console.log('2');
           if (answer[2] == this.money) {
-            console.log('3');
             if (answer[3] == this.livestock) {
-              console.log('4');
               if (answer[4] == this.villager) {
-                console.log('5')
                 if (answer[5] == this.risk) {
-                  console.log("requirementchecked");
                   return true;
-
                 }
               }
             }
@@ -174,13 +166,11 @@ class Requirements {
       }
     }
     else if (this.foodMoney !== 0) {
-      console.log("requirementcheckd2")
       if (answer[1] + answer[2] == this.foodMoney) {
         if (answer [0] == this.wolfsbane) {
           if (answer[3] == this.livestock) {
             if (answer[4] == this.villager) {
               if (answer[5] == this.risk) {
-                console.log("requirementchecked2");
                 return true;
 
               }

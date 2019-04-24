@@ -89,10 +89,23 @@ function dataLoaded(data) {
 }
 
 function newRound() {
-  $($nextRound).remove();
+  //Update data for the new week's situation
+  changeWeek();
+  //Move the week variable up to 1 unit
+  week++;
+  console.log("NEW ROUND" + week);
 
+  //remove the fulfilled class out of the option tags
+  for (var i = 0; i<NUM_OPTIONS; i++) {
+    $('#option'+i).removeClass("fulfilled");
+  }
+
+  //reset answer to 0
   answer = [0,0,0,0,0,0];
+  //Display this new answer
   displayAnswers();
+  //Display player's current resources
+  displayResources();
 
   //check if there's any event already assigned to this week
   if (events.current.length == 0) {
@@ -100,20 +113,24 @@ function newRound() {
     chooseEvent();
   }
 
-  displayResources();
-
+  //From the chosen event, set up corresponding options for the player
   events.current.assignOptions();
+  //Display these options
   displayOptions();
+  //check if there is already an available option
+  checkAnswer();
 
-  $('.resource').on('click', answerChosen);
+  //Trigger if player clicks on an option
+  $('.option').off().on('click', optionChosen);
 
-  changeWeek();
+  //Trigger if player clicks on a type of resource
+  $('.resource').off().on('click', answerChosen);
 
-  $nextRound = $('<div id="nextRound">Next round</div>')
-  $('.content').append($nextRound);
-  console.log("NEW ROUND" + week);
-  week++;
-  $($nextRound).on('click', newRound);
+  //Trigger if player clicks on a type of answer
+  $('.answer').off().on('click', answerModify);
+
+  //FOR TESTING ONLY!!!! move to the next round if "next round" is clicked
+  $($nextRound).off().on('click', newRound);
 }
 
 function answerChosen() {
@@ -146,6 +163,43 @@ function answerChosen() {
   checkAnswer();
 }
 
+function optionChosen() {
+  console.log("clicked");
+
+  if ($(this).attr('id') == "option0"){
+    if ($(this).hasClass("fulfilled")) {
+      options[0].checkforSpecial();
+      options[0].updateResource();
+      newRound();
+    }
+  } else if ($(this).attr('id') == "option1") {
+    if($(this).hasClass("fulfilled")) {
+      options[1].checkforSpecial();
+      options[1].updateResource();
+      newRound();
+    }
+  } else if ($(this).attr('id') == "option2") {
+    if($(this).hasClass("fulfilled")) {
+      options[2].checkforSpecial();
+      options[2].updateResource();
+      newRound();
+    }
+  }
+}
+
+function answerModify() {
+  for (var i = 0; i<NUM_RESOURCES; i++) {
+    if ($(this).attr('id') == "answer"+i) {
+      //limit the answer's value between 0 and 15 (the maximum amount of cards)
+      answer[i] = range(answer[i]-1, 0, 15);
+    }
+  }
+  //check answers again to remove a fulfilled status if the new answer no longer correspond to its requirements
+  checkAnswer();
+  //display the new answers
+  displayAnswers();
+}
+
 function displayResources() {
   for (var i = 0; i<NUM_RESOURCES; i++) {
     $('#resource'+i).remove();
@@ -157,16 +211,16 @@ function displayResources() {
 
 function displayAnswers() {
   for (var i = 0; i<NUM_RESOURCES; i++) {
-    $('#answer'+i).remove();
-    let $content = $('<div class="answer" id="answer'+i+'">'+answer[i]+'</div>');
-    $('.answers').append($content);
+    $('#answerContent'+i).remove();
+    let $content = $('<div id="answerContent'+i+'">'+answer[i]+'</div>');
+    $('#answer'+i).append($content);
   }
 }
 
 
 function chooseEvent() {
   eventRandomizer();
-  while (events.last2w == events.current || events.last1w == events.current) {
+  if (events.last2w.id == events.current.id || events.last1w.id == events.current.id) {
     //repeat the process
     eventRandomizer();
   }
@@ -197,37 +251,38 @@ function changeWeek() {
   events.last1w = events.current;
   events.current = events.next1w;
   events.next1w = events.next2w;
+
+  console.log("events: "+ events);
 }
 
 
 function displayOptions() {
   for (var i = 0; i<NUM_OPTIONS; i++) {
-    $('#option'+i).remove();
-    options[i].display();
+    $('#optionContent'+i).remove();
+    $('#option'+i).append(options[i].description);
   }
 }
 
+//checkAnswer()
+//
+//check if the answer has fulfilled any option
 function checkAnswer() {
   for (var i = 0; i < 3; i++) {
+    //remove the old stats
+    $('#option'+i).removeClass('fulfilled');
+    options[i].fulfilled = false;
+    //use Option's checkOption() to determine if this option has been fulfilled
     options[i].checkOption();
     if (options[i].fulfilled == true) {
+      //add the fulfilled class to the corresponding HTML element
       $('#option'+i).addClass('fulfilled');
-      displayOptions();
     }
   }
 }
 
-function finalModification() {
-  for (var i = 0; i<NUM_RESOURCES; i++) {
-    let rewardIndex = [rewards.wolfsbane, rewards.food, rewards.money, rewards.livestock, rewards.villager, rewards.risk];
-    resources[i] = resources[i] - answer[i] + rewardIndex[i];
-  }
-  console.log("resources = " + resources);
-}
-
-function result(choice) {
-  for (var i = 0; i<NUM_RESOURCES; i++) {
-    resources[i] = resources[i] + choices[choice][i];
-  }
-  console.log("result " + resources);
+//range()
+//
+//limit a value between a range
+function range(val, min, max) {
+    return Math.min(Math.max(val, min), max);
 }

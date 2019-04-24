@@ -123,6 +123,20 @@ class Rewards {
         this.money = 1;
       }
     }
+    //Trade: lost puppy
+    if (this.currentEvent === "lost puppy") {
+      //keep as pet
+      if(this.option == 1) {
+        this.livestock = 1;
+        this.risk = 1;
+      }
+      //eat
+      if (this.option == 2) {
+        this.food = 1;
+        this.risk = 1;
+      }
+
+    }
 
     //if the current event is a Loss event
     //Loss: call to arms
@@ -158,11 +172,14 @@ class Rewards {
     //if the current event is a special event
     //Special: cross marriage
     if (this.currentEvent === "cross-town marriage") {
+      // {"description": "Welcome the new spouse, and a blessing for a child"},
+      if (this.option == 0) {
+        this.villager = 2;
+      }
       // {"description": "Welcome the new spouse"},
       if (this.option == 0) {
         this.villager = 1;
       }
-      // {"description": "Send your blessing, but the couple stay separated"},
       // {"description": "Tell the couple to settle elsewhere"}
     }
     //Special: wolf's debts
@@ -194,9 +211,9 @@ class Rewards {
       if (this.option == 1) {
         this.food = 2;
       }
-      // {"description": "There're still the...."}
+      // {"description": "Starve"}
       if (this.option == 2) {
-        this.food = 2;
+        this.eventSpecial = "game lost"
       }
     }
     //Special: greed
@@ -229,7 +246,7 @@ class Rewards {
     if (this.currentEvent === "BIG WOLF") {
       // {"description": "Send it your last gift", "warning": "Kill the Big Wolf"},
       if (this.option == 0) {
-        this.eventSpecial = "kill big wolf"
+        this.eventSpecial = "game won";
       }
       // {"description": "Sustain the contract for now", "warning": "Continue the contract"},
       // {"description": "Beg it to spare your village this time", "warning": "Continue the contract"}

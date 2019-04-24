@@ -192,10 +192,12 @@ class Requirements {
       // {"description": "Let them kill the livestock"},
       if (this.option == 0) {
         this.livestock = 3;
+        this.risk = range(resources[5],0,3);
       }
       // {"description": "Let them kill some villagers"},
       if (this.option == 1) {
         this.villager = 2;
+        this.risk = range(resources[5],0,3);
       }
       // {"description": "Succumb to their claws", "warning": "The wolfs will kill you"}
     }
@@ -209,9 +211,8 @@ class Requirements {
       if (this.option == 1) {
         this.livestock = 2;
       }
-      // {"description": "There're still the...."}
+      // {"description": "Starve to death"}
       if (this.option == 2) {
-        this.villager = 2;
       }
     }
     //Special: greed
@@ -228,7 +229,7 @@ class Requirements {
       }
       // {"description": "Follow the law of nature", "warning": "Discard 5 random cards"}
       if (this.option == 2) {
-        this.any = 5
+        this.any = 5;
       }
     }
     //Special: desperation
@@ -313,17 +314,16 @@ class Requirements {
       }
     }
     //if there's the 'any' requirement
-    else if (this.any !== 0) {
+    if (this.any > 0) {
+      console.log('too much');
       let match = true;
       //The 'any' requirement takes card away randomly, player doesn't give their own answer
       for (var i = 0; i<NUM_RESOURCES; i++) {
-        if (answer[i] !== 0) {
+        if (answer[i] > 0) {
           match = false;
         }
       }
-      if (match == true) {
-        //take 5 random cards
-        takeRandomcard();
+      if (match === true) {
         return true;
       }
     }

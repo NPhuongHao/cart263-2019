@@ -80,3 +80,23 @@ body {
   color: red;
   background-color: black;
 }
+
+.options {
+  width: 720px;
+  background-color: grey;
+  text-align: center;
+}
+.option {
+  display: inline-block;
+  float: left;
+  margin: 20px;
+  width: 200px;
+  height: 100px;
+}
+
+.result {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}

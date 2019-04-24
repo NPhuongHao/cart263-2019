@@ -43,10 +43,6 @@ let greed = false;
 let attack = false;
 let bigWolf = false;
 
-let gameOver = false;
-let gameWon = false;
-
-
 //Setup the program
 $(document).ready(setup);
 
@@ -89,6 +85,7 @@ function dataLoaded(data) {
 }
 
 function newRound() {
+
   //check if the current state of resources call for any special event
   examineSpecialEvent();
   //Update data for the new week's situation
@@ -120,6 +117,9 @@ function newRound() {
   events.current.assignOptions();
   //Display these options
   displayOptions();
+  //Display the new title
+  $('.eventTitle').remove();
+  $('.content').append("<h2 class='eventTitle'>"+events.current.title+"</h2>");
   //check if there is already an available option
   checkAnswer();
 
@@ -168,8 +168,6 @@ function answerChosen() {
 }
 
 function optionChosen() {
-  console.log("clicked");
-
   if ($(this).attr('id') == "option0"){
     if ($(this).hasClass("fulfilled")) {
       options[0].checkforSpecial();
@@ -227,7 +225,6 @@ function chooseEvent() {
     //repeat the process
     eventRandomizer();
   }
-  console.log(events.current.id);
 }
 
 function eventRandomizer() {
@@ -272,11 +269,11 @@ function examineSpecialEvent() {
     $newEvent = $eventSpecial[5];
   }
   //trigger wolf's bane when 29 weeks have passed
-  else if (week%29 == 0) {
+  else if (week%29 == 0 && week>0) {
     $newEvent = $eventWolfsBane[0];
   }
   //trigger BIG WOLF when 30 weeks have passed
-  else if (week%30 == 0) {
+  else if (week%30 == 0 && week>0) {
     $newEvent = $eventSpecial[6];
   }
 
@@ -304,7 +301,7 @@ function displayOptions() {
     //remove the old content
     $('#optionContent'+i).remove();
     //add the new content
-    $('#option'+i).append(options[i].description);
+    options[i].display(i);
   }
 }
 
@@ -322,6 +319,20 @@ function checkAnswer() {
       //add the fulfilled class to the corresponding HTML element
       $('#option'+i).addClass('fulfilled');
     }
+  }
+}
+
+function gameOver(cond) {
+  $(".content").remove();
+  $nextRound.remove();
+  if (cond === "won") {
+    $("#playground").append("<div class='result'>You win</div>");
+  }
+  else if (cond === "lost") {
+    $("#playground").append("<div class='result'>You lose</div>");
+  }
+  else {
+    return false;
   }
 }
 

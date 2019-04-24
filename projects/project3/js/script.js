@@ -10,14 +10,20 @@ author, and this description to match your project!
 
 ******************/
 
+const NUM_OPTIONS = 3;
+
 //resources = [Wolf's bane, Food, Money, Livestock, Villager, Risk]
 let resources = [0,2,2,2,2,0];
-let resourceActions = [0,0,0,0,0,0];
 let choices = [[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]];
+let options = [];
 
-let eventOfWeek;
-let eventLastWeek;
-let eventLastTwoWeek;
+let events = {
+  last2w: [],
+  last1w: [],
+  current: [],
+  next1w: [],
+  next2w: [],
+};
 
 let $eventGain;
 let $eventLoss;
@@ -57,7 +63,7 @@ function startGame() {
 
 
   $nextRound = $('<div id="nextRound">Next round</div>')
-  $('body').append($nextRound);
+  $('#playground').append($nextRound);
   $nextRound.animate({
     opacity: '+=1'
   },1000);
@@ -82,12 +88,19 @@ function dataLoaded(data) {
 function newRound() {
   $($nextRound).remove();
 
-  // chooseEvent();
-  // executeEvent(eventOfWeek);
-  // result(0);
+  //check if there's any event already assigned to this week
+  if (events.current.length == 0) {
+    //If not, choose a random event
+    chooseEvent();
+  }
+
+  events.current.assignOptions();
+  displayOptions();
+
+  changeWeek();
 
   $nextRound = $('<div id="nextRound">Next round</div>')
-  $('body').append($nextRound);
+  $('#playground').append($nextRound);
   console.log("NEW ROUND" + week);
   week++;
   $($nextRound).on('click', newRound);
@@ -96,280 +109,88 @@ function newRound() {
 
 
 function chooseEvent() {
-  var r = Math.random();
-  if (r <= 0.15) {
-    //Open wolf's bane card
-    eventOfWeek = wolfsbane;
-  } else if (r <= 0.35) {
-    eventOfWeek = eventLoss[Math.floor(Math.random() * eventLoss.length)];
-  } else if (r <= 0.75) {
-    eventOfWeek = eventGain[Math.floor(Math.random() * eventGain.length)];
-  } else if (r <= 1) {
-    eventOfWeek = eventTrade[Math.floor(Math.random() * eventTrade.length)];
-  }
-  while (eventLastTwoWeek == eventOfWeek || eventLastWeek == eventOfWeek) {
+  eventRandomizer();
+  while (events.last2w == events.current || events.last1w == events.current) {
     //repeat the process
-    if (r <= 0.15) {
-      eventOfWeek = wolfsbane;
-    } else if (r <= 0.35) {
-      eventOfWeek = eventLoss[Math.floor(Math.random() * eventLoss.length)];
-    } else if (r <= 0.75) {
-      eventOfWeek = eventGain[Math.floor(Math.random() * eventGain.length)];
-    } else if (r <= 1) {
-      eventOfWeek = eventTrade[Math.floor(Math.random() * eventTrade.length)];
-    }
+    eventRandomizer();
   }
-  eventLastTwoWeek = eventLastWeek;
-  eventLastWeek = eventOfWeek;
-  console.log(eventOfWeek);
+  console.log(events.current.id);
 }
 
-function executeEvent(x) {
-//[Wolf's bane, Food, Money, Livestock, Villager, Risk]
-//     0          1     2        3         4        5
-  if (x === "good week") {
-    //+2 money
-    choices[0][2] = 2;
-    //+2 food
-    choices[1][1] = 2;
-    //+2 Livestock
-    choices[2][3] = 2;
+function eventRandomizer() {
+  var r = Math.random();
+  var currentCard;
+  if (r <= 0.15) {
+    //Open wolf's bane event
+    currentCard = $eventWolfsBane[0];
+  } else if (r <= 0.35) {
+    //Open a Loss event
+    currentCard = $eventLoss[Math.floor(Math.random() * $eventLoss.length)];
+  } else if (r <= 0.75) {
+    //Open a Gain event
+    currentCard = $eventGain[Math.floor(Math.random() * $eventGain.length)];
+  } else if (r <= 1) {
+    //Open a Trade event
+    currentCard = $eventTrade[Math.floor(Math.random() * $eventTrade.length)];
   }
-  if (x === "collect") {
-    //+1 Money
-    choices[0][2] = 2;
-    //+1 food
-    choices[1][1] = 2;
+  events.current = new Event(currentCard.id, currentCard.title, currentCard.description, currentCard.options)
+}
+
+function changeWeek() {
+  events.last2w = events.last1w;
+  events.last1w = events.current;
+  events.current = events.next1w;
+  events.next1w = events.next2w;
+}
+
+
+function displayOptions() {
+  for (var i = 0; i<NUM_OPTIONS; i++) {
+    $('#option'+(i+1)).remove();
+    options[i].display();
   }
-  if (x === "harvest") {
-    //+3 Food
-    choices[0][1] = 3;
-    //+1 Food
-    choices[1][1] = 1;
-  }
-  if (x === "breeding") {
-    //+ 2 livestock
-    choices[0][3] = 2;
-    //+ 1 livestock + 1 money
-    choices[1][3] = 1;
-    choices[1][2] = 1;
-    //+ 2 money
-    choices[2][2] = 1;
-  }
-  if (x === "generous merchant") {
-    //- 1 food + 2 money
-    choices[0][1] = -1;
-    choices[0][2] = 2;
-    //- 1 money + 2 food
-    choices[1][1] = 2;
-    choices[1][2] = -1;
-  }
-  if (x === "difficult merchant") {
-    //- 2 food + 1 money
-    choices[0][1] = -2;
-    choices[0][2] = 1;
-    //- 2 money + 1 food
-    choices[1][1] = 1;
-    choices[1][2] = -2;
-  }
-  if (x === "witch") {
-    //- 1 livestock – 1 money + 2 livestock
-    choices[0][3] = -1;
-    choices[0][2] = -1;
-    choices[0][3] = 2;
-    //- 1 food – 1 money + 2 food
-    choices[0][1] = -1;
-    choices[0][2] = -1;
-    choices[0][1] = 2;
-  }
-  if (x === "farmer") {
-    //- 2 money + 2 livestock
-    choices[0][2] = -2;
-    choices[0][3] = 2;
-    //- 1 money + 1 livestock
-    choices[1][1] = -1;
-    choices[1][3] = 1;
-  }
-  if (x === "local marriage") {
-    //- 2 food/-2 money + 1 villager + 1 livestock
-    if (answer[1] == 2 && answer[2] == 0) {
-      choices[0][1] = -2;
-    } else if (answer[2] == 2 && answer[1] ==0) {
-      choices[0][2] = -2;
-    } else if (answer[2] == 1 && answer[1] == 1) {
-      choices[0][1] = -1;
-      choices[0][2] = -1;
+}
+
+function checkAnswer() {
+  for (var i = 0; i < 3; i++) {
+    //check if it's a mixed option
+    if (options[i].mixed.foodMoney == 0) {
+      //if not, check every section individually
+      if (answer [0] = option[i].wolfsbane) {
+        if (answer[1] = options[i].food) {
+          if (answer[2] = options[i].money) {
+            if (answer[3] = options[i].livestock) {
+              if (answer[4] = options[i].villager) {
+                if (answer[5] = options[i].risk) {
+                  options[i].fulfilled = true;
+                }
+              }
+            }
+          }
+        }
+      }
     }
-    choices[0][4] = 1;
-    choices[0][3] = 1;
-    //- 1 food
-    choices[1][1] = -1;
+    //if it's a money-food mixed requirement, check if the total food and money given by player match the requirement
+    else if (options[i].mixed.foodMoney !== 0) {
+      if (answer[1] + answer[2] == options[i].mixed.foodMoney) {
+        if (answer [0] = option[i].wolfsbane) {
+          if (answer[3] = options[i].livestock) {
+            if (answer[4] = options[i].villager) {
+              if (answer[5] = options[i].risk) {
+                options[i].fulfilled = true;
+              }
+            }
+          }
+        }
+      }
+    }
   }
-  if (x === "lost wolfie") {
-    //– 0 to 1 risk
-    if (resources[5] > 0) {
-      choices[0][5] = -1;
-    }
-    //+ 1 livestock + 1 risk
-    choices[1][3] = 1;
-    choices[1][5] = 1;
-    //+ 1 food + 1 risk
-    choices[2][1] = 1;
-    choices[2][5] = 1;
-  }
-  if (x === "call to arms") {
-    //- 2 money
-    if (resources[2] > 2) {
-      choices[0][2] = -2;
-    } else {
-      choices[0][2] = resources[2];
-    }
-    //-2 Food
-    if (resources[1] > 2) {
-      choices[0][1] = -2;
-    } else {
-      choices[0][1] = resources[1];
-    }
-    //-2 villagers
-    if (resources[4] > 2) {
-      choices[0][4] = -2;
-    } else {
-      choices[0][4] = resources[4];
-    }
+}
+
+function finalModification() {
+  for (var i = 0; i<6; i++) {
 
   }
-  if (x === "wolf's demands") {
-    //-2 Livestock
-    choices[0][3] = -2;
-    //-1 villager
-    choices[1][4] = -1;
-    //+1 risk + "Debts for the Wolf"
-    choices[0][5] = 1;
-    debts = true;
-  }
-  if (x === "cross-town marriage") {
-    //- 2 food + 1 villager
-    choices[0][1] = -2;
-    choices[0][4] = 1;
-    //- 1 food
-    choices[1][1] = -1;
-    //- 1 villager
-    choices[1][4] = -1;
-  }
-  if (x === "infestation") {
-    //- ½ to 2/3 food
-    choices[0][1] = Math.floor(2/3*resources[1]);
-    //- 1 food – 1 money
-    choices[1][1] = -1;
-    choices[0][2] = -1;
-    //- ½ to 2/3 villagers – 1/3 livestock
-    choices[2][4] = Math.floor(2/3*resources[4]);
-    choices[2][3] = Math.floor(1/3*resources[3]);
-  }
-  if (x === "wolf's debts") {
-    //- 3 livestock – 0 to 1 risk
-    choices[0][3] = -3;
-    if (resources[5] > 0) {
-      choices[0][5] = -1;
-    }
-    //- 2 villager – 0 to 1 risk
-    choices[1][4] = -2;
-    if (resources[5] > 0) {
-      choices[1][5] = -1;
-    }
-    //+ 2 risk
-    choices[2][5] = 2;
-  }
-  if (x === "wolf attack") {
-    //- 0 to 3 livestock – 3 risk
-    choices[0][3] = -3;
-    choices[0][5] = -3;
-    //- 2 villager – 3 risk
-    choices[1][4] = -2;
-    choices[1][5] = -3;
-    //"Game over"
-    gameOver = true;
-  }
-  if (x === "famine") {
-    //- 2/3 livestock + 2 food
-    if (resources[3] < 2) {
-      choices[0][3] = -1;
-    } else {
-      choices[0][3] = -Math.floor(2/3*resources[3]);
-    }
-    choices[0][1] = 2;
-    //- 2/3 villager + 2 food
-    choices[1][4] = -Math.floor(2/3*resources[4]);
-    choices[1][1] = 2;
-    //- 3 money + 2 food
-    choices[2][2] = -3;
-    choices[2][1] = 2;
-  }
-  if (x === "greed") {
-    //- 2 livestock – 2 villager – 1 food
-    choices[0][3] = -2;
-    choices[0][4] = -2;
-    choices[0][1] = -1;
-    //Lose 5 cards randomly
-    var i = 0;
-    while (i<6) {
-      var cardChosen = Math.floor(Math.random()*resources.length);
-      if (resources[cardChosen] > 0) {
-        choices[2][cardChosen] = -1;
-        i++;
-      }
-    }
-  }
-  if (x === "desperation") {
-    //+ 1 food + 1 livestock + 1 villager + 1 money
-    choices[0][1] = 1;
-    choices[0][2] = 1;
-    choices[0][3] = 1;
-    choices[0][4] = 1;
-    //+ 2 food + 2 livestock + 2 villager + 2 money + 1 risk + “Debts for the Wolf” (The Wolf’s help is hardly legal)
-    choices[1][1] = 2;
-    choices[1][2] = 2;
-    choices[1][3] = 2;
-    choices[1][4] = 2;
-    choices[1][5] = 1;
-    debts = true;
-  }
-  if (x === "BIG WOLF") {
-    //- 3 Livestock/ 3 villager - 1 wolf’s bane + "Game win"
-    if (answer[0] == 1) {
-      if (answer[3] == 3 && answer[4] == 0) {
-        choices[0][3] = -answer[3];
-      } else if ((answer[3] == 2 & answer[4] == 1) || (answer[3] == 1 & answer[4] == 2)) {
-        choices[0][3] = -answer[3];
-        choices[0][4] = -answer[4];
-      } else if (answer[3] == 0 && answer[4] == 3) {
-        choices[0][4] = -answer[4];
-      }
-    }
-    choices[0][0] = -1;
-    gameWon = true;
-    //- 3 villager/ - 3 villager + "continue"
-    if (answer[3] == 3 && answer[4] == 0) {
-      choices[1][3] = -answer[3];
-    } else if ((answer[3] == 2 & answer[4] == 1) || (answer[3] == 1 & answer[4] == 2)) {
-      choices[1][3] = -answer[3];
-      choices[1][4] = -answer[4];
-    } else if (answer[3] == 0 && answer[4] == 3) {
-      choices[1][4] = -answer[4];
-    }
-    //+ 2 risk + “Debts for the Wolf” + "continue"
-    choices[2][5] = 2
-    debts = true;
-  }
-  if (x === "wolf's bane") {
-    //- 5 money + 1 wolf’s bane
-    choices[0][2] = -5;
-    choices[0][0] = 1;
-    //+ 4 risk + 1 wolf’s bane
-    choices[1][5] = 4;
-    choices[1][0] = 1;
-  }
-  console.log("choice1 " + choices[0]);
 }
 
 function result(choice) {

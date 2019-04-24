@@ -175,7 +175,8 @@
   ],
 
 }
-"eventTrade": [{
+"eventTrade": [
+  {
     "id": "generous merchant",
   },
   {
@@ -214,7 +215,8 @@
   "id": "wolf's bane",
 }],
 
-"eventSpecial": [{
+"eventSpecial": [
+  {
     "id": "wolf's debts",
   },
   {

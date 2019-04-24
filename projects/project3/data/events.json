@@ -4,33 +4,52 @@
       "id":"good week",
       "title":"A good week all in all",
       "description": "Bracing yourself for the next trials",
-      "option1": {"description":"Keep the coins"},
-      "option2": {"description":"Buy more food"},
-      "option3": {"description":"Invest on livestock"}
+      "options": [
+        {"description":"Keep the coins"},
+        {"description":"Buy more food"},
+        {"description":"Invest on livestock"}
+      ]
     },
     {
       "id": "collect",
       "title": "Collecting more resources",
       "description": "They should thank you for keeping them alive",
-      "option1": {"description":"Collect money"},
-      "option2": {"description":"Add food in your storage"},
-      "option3": {"description":"Let them keep their stuffs for now"}
+      "options": [
+        {"description":"Collect money"},
+        {"description":"Add food in your storage"},
+        {"description":"Let them keep their stuffs for now"}
+      ]
     },
     {
       "id": "harvest",
       "title": "Harvest season",
       "description":"The weather and your crops are getting along",
-      "option1": {"description":"Farm intensively"},
-      "option2": {"description":"Farm moderately"},
-      "option3": {"description":"Harvesting is not our priority"}
+      "options":[
+        {"description":"Farm intensively"},
+        {"description":"Farm moderately"},
+        {"description":"Harvesting is not our priority"}
+
+      ]
     },
     {
       "id": "breeding",
       "title": "Breeding season",
       "description":"Your livestock are quite active recently",
-      "option1": {"description":"Encourage the breeding"},
-      "option2": {"description":"Breed moderately"},
-      "option3": {"description":"We don't need more animals"}
+      "options": [
+        {"description":"Encourage the breeding"},
+        {"description":"Breed moderately"},
+        {"description":"We don't need more animals"}
+      ]
+    },
+    {
+      "id": "lost puppy",
+      "title": "Straying puppy",
+      "description": "Odd, but it looks rather wolfy…",
+      "options": [
+         {"description": "Send the pup back, very carefully"},
+         {"description": "Keep it as your pet"},
+         {"description": "It's time we reverse the role"}
+      ]
     }
   ],
   "eventLoss": [
@@ -38,25 +57,31 @@
       "id": "call to arms",
       "title": "Call to arms!",
       "description": "The country demands your sacrifice",
-      "option1": {"description":"Fulfill the war bonds"},
-      "option2": {"description":"Send supply caches"},
-      "option3": {"description":"Your people are ready to conscript"}
+      "options": [
+        {"description":"Fulfill the war bonds"},
+        {"description":"Your people are ready to conscript"},
+        {"description":"'We still have to fight the wolfs'"}
+      ]
     },
     {
       "id": "wolf's demands",
       "title": "Demands of the wolfs",
       "description": "They only leave with their due",
-      "option1": {"description": "Offer livestock"},
-      "option2": {"description": "Offer a villager"},
-      "option3": {"description": "There is nothing to offer", "warning": "Insert 'Debts for the Wolf' into the next events"}
+      "options": [
+        {"description": "Offer livestock"},
+        {"description": "Offer a villager"},
+        {"description": "There is nothing to offer", "warning": "Insert 'Debts for the Wolf' into the next events"}
+      ]
     },
     {
       "id": "infestation",
       "title": "Food infestation",
       "description": "Something has gone wrong in the food",
-      "option1": {"description": "Salvage the rest"},
-      "option2": {"description": "Hire a professional"},
-      "option3": {"description": "Nothing that cannot be eaten"}
+      "options": [
+        {"description": "Salvage the rest"},
+        {"description": "Hire a professional"},
+        {"description": "Nothing that cannot be eaten"}
+      ]
     }
   ],
   "eventTrade": [
@@ -64,49 +89,51 @@
       "id": "generous merchant",
       "title": "A wandering merchant",
       "description": "Always a generous offer",
-      "option1": {"description": "Sell the food"},
-      "option2": {"description": "A coin for more supplies"},
-      "option3": {"description": "No need for trading right now"}
+      "options": [
+        {"description": "Sell the food"},
+        {"description": "A coin for more supplies"},
+        {"description": "No need for trading right now"}
+      ]
     },
     {
       "id": "difficult merchant",
       "title": "A wandering merchant",
       "description": "She claims her products to be better than most",
-      "option1": {"description": "Sell your 'mediocre' food"},
-      "option2": {"description": "Buy her 'good' supplies"},
-      "option3": {"description": "No need for trading right now"}
+      "options": [
+        {"description": "Sell your 'mediocre' food"},
+        {"description": "Buy her 'good' supplies"},
+        {"description": "No need for trading right now"}
+      ]
     },
     {
       "id": "farmer",
       "title": "A wandering farmer",
       "description": "How he can farm while travelling, no one knows",
-      "option1": {"description": "Buy a lot of livestock"},
-      "option2": {"description": "Just one more beast in your stable"},
-      "option3": {"description": "No need for trading right now"}
+      "options": [
+        {"description": "Buy a lot of livestock"},
+        {"description": "Just one more beast in your stable"},
+        {"description": "No need for trading right now"}
+      ]
     },
     {
       "id": "witch",
       "title": "A wandering witch",
       "description": "He sells potions of duplication",
-      "option1": {"description": "Use them on our livestock"},
-      "option2": {"description": "The food might taste a bit funny later"},
-      "option3": {"description": "No need for trading right now"}
+      "options": [
+        {"description": "Use them on our livestock"},
+        {"description": "The food might taste a bit funny later"},
+        {"description": "No need for trading right now"}
+      ]
     },
     {
       "id": "local marriage",
       "title": "A local marriage",
       "description": "They ask for your blessing",
-      "option1": {"description": "Blessing for a kid"},
-      "option2": {"description": "Happiness is enough"},
-      "option3": {"description": "No time for a wedding"}
-    },
-    {
-      "id": "lost puppy",
-      "title": "Straying puppy",
-      "description": "Odd, but it looks rather wolfy…",
-      "option1": {"description": "Send the pup back, very carefully"},
-      "option2": {"description": "Keep it as your pet"},
-      "option3": {"description": "It's time we reverse the role"}
+      "options": [
+         {"description": "Blessing for a kid"},
+         {"description": "Happiness is enough"},
+         {"description": "No time for a wedding"}
+      ]
     }
   ],
   "eventSpecial": [
@@ -114,65 +141,81 @@
       "id": "cross-town marriage",
       "title": "An intervillage marriage",
       "description": "You should have a word or two",
-      "option1": {"description": "Welcome the new spouse"},
-      "option2": {"description": "Send your blessing, but the couple stay separated"},
-      "option3": {"description": "Tell the couple to settle elsewhere"}
+      "options": [
+         {"description": "Welcome the new spouse"},
+         {"description": "Send your blessing, but the couple stay separated"},
+         {"description": "Tell the couple to settle elsewhere"}
+      ]
     },
     {
       "id": "wolf's debts",
       "title": "Debts for the wolfs",
       "description": "The wolfs ask for their debts, with interests",
-      "option1": {"description": "Offer livestock"},
-      "option2": {"description": "Offer villagers"},
-      "option3": {"description": "There is nothing to offer, still", "warning": "Insert 'Debts for the Wolf' into the next events"}
+      "options": [
+         {"description": "Offer livestock"},
+         {"description": "Offer villagers"},
+         {"description": "There is nothing to offer, still", "warning": "Insert 'Debts for the Wolf' into the next events"}
+      ]
     },
     {
       "id": "wolf attack",
       "title": "The wolfs attack!",
       "description": "You made them very angry",
-      "option1": {"description": "Let them kill the livestock"},
-      "option2": {"description": "Let them kill some villagers"},
-      "option3": {"description": "Succumb to their claws", "warning": "The wolfs will kill you"}
+      "options": [
+         {"description": "Let them kill the livestock"},
+         {"description": "Let them kill some villagers"},
+         {"description": "Succumb to their claws", "warning": "The wolfs will kill you"}
+      ]
     },
     {
       "id": "famine",
       "title": "Famine",
       "description": "Your storage has been empty for too long",
-      "option1": {"description": "Buy from the neighbouring village"},
-      "option2": {"description": "There's still the livestock"},
-      "option3": {"description": "There're still the...."}
+      "options": [
+         {"description": "Buy from the neighbouring village"},
+         {"description": "There's still the livestock"},
+         {"description": "There're still the...."}
+      ]
     },
     {
       "id": "greed",
       "title": "Greed",
       "description": "You have too much on your plate",
-      "option1": {"description": "Send some to The Wolf"},
-      "option2": {"description": ""},
-      "option3": {"description": "Follow the law of nature", "warning": "Discard 5 random cards"}
+      "options": [
+         {"description": "Send some to The Wolf"},
+         {"description": ""},
+         {"description": "Follow the law of nature", "warning": "Discard 5 random cards"}
+      ]
     },
     {
       "id": "desperation",
       "title": "Desperation",
       "description": "Can't be the mayor of an empty village",
-      "option1": {"description": "Hopefully, help came in small portions"},
-      "option2": {"description": "You will owe the Wolf for this favor", "warning": "Insert 'Debts for the Wolf' into the next events"},
-      "option3": {"description": "....Better retire and flee", "warning": "Abandon what remains of your village"}
+      "options": [
+         {"description": "Hopefully, help came in small portions"},
+         {"description": "You will owe the Wolf for this favor", "warning": "Insert 'Debts for the Wolf' into the next events"},
+         {"description": "....Better retire and flee", "warning": "Abandon what remains of your village"}
+      ]
     },
     {
       "id": "BIG WOLF",
       "title": "The Big Wolf has come",
       "description": "Let's review your contract",
-      "option1": {"description": "Send it your last gift", "warning": "Kill the Big Wolf"},
-      "option2": {"description": "Sustain the contract for now", "warning": "Continue the contract"},
-      "option3": {"description": "Beg it to spare your village this time", "warning": "Continue the contract"}
+      "options": [
+         {"description": "Send it your last gift", "warning": "Kill the Big Wolf"},
+         {"description": "Sustain the contract for now", "warning": "Continue the contract"},
+         {"description": "Beg it to spare your village this time", "warning": "Continue the contract"}
+      ]
     }
   ],
   "eventWolfsBane": [{
     "id": "wolf's bane",
     "title": "Search for wolf's bane",
     "description": "As its name suggests",
-    "option1": {"description": "Buy them from the Witch"},
-    "option2": {"description": "Make a risky trip into the woods"},
-    "option3": {"description": "Nothing you can do, yet"}
-  }],
+    "options": [
+       {"description": "Buy them from the Witch"},
+       {"description": "Make a risky trip into the woods"},
+       {"description": "Nothing you can do, yet"}
+    ]
+  }]
 }

@@ -11,11 +11,13 @@ class Event {
   assignOptions() {
     //option description
     for (var i = 0; i<3; i++) {
-      var $description = $('<div id="option'+(i+1)+'">'+ this.options[i].description + '</div>');
+      var $description = $('<div id="option'+i+'">'+ this.options[i].description + '</div>');
       var currentEvent = this.id;
       var requirements = new Requirements(currentEvent, i);
+      var rewards = new Rewards(currentEvent, i);
       requirements.update();
-      options[i] = new Option(requirements, requirements, $description);
+      rewards.update();
+      options[i] = new Option(requirements, rewards, $description);
     }
     console.log(options);
 

@@ -72,6 +72,15 @@ class Requirements {
         this.foodMoney = 1;
       }
     }
+    //Trade: lost puppy
+    if (this.currentEvent === "lost puppy") {
+      if (this.option == 0) {
+        // {"description": "Send the pup back, very carefully"}
+        if (resources[5] > 0) {
+          this.risk = 1;
+        }
+      }
+    }
 
     //if the current event is a Loss event
     //Loss: call to arms
@@ -109,11 +118,11 @@ class Requirements {
         } else {
           this.food = Math.floor(2/3*resources[1]);
         }
-      } else if (this.option = 1) {
+      } else if (this.option == 1) {
         // {"description": "Hire a professional"},
         this.food = 1;
         this.money = 2;
-      } else if (this.option = 2) {
+      } else if (this.option == 2) {
         // {"description": "Nothing that cannot be eaten"}
         if (0 < resources[4] < 3) {
           this.villager = 1;
@@ -134,6 +143,50 @@ class Requirements {
       } if (this.option == 1) {
         //{"description": "Make a risky trip into the woods"},
         this.villager = 1;
+      }
+    }
+  }
+
+  //check Requirements
+  check() {
+    console.log("startchecking");
+    if (this.foodMoney == 0) {
+      console.log("requirementcheckd")
+      if (answer [0] == this.wolfsbane) {
+        console.log('1');
+        if (answer[1] == this.food) {
+          console.log('2');
+          if (answer[2] == this.money) {
+            console.log('3');
+            if (answer[3] == this.livestock) {
+              console.log('4');
+              if (answer[4] == this.villager) {
+                console.log('5')
+                if (answer[5] == this.risk) {
+                  console.log("requirementchecked");
+                  return true;
+
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    else if (this.foodMoney !== 0) {
+      console.log("requirementcheckd2")
+      if (answer[1] + answer[2] == this.foodMoney) {
+        if (answer [0] == this.wolfsbane) {
+          if (answer[3] == this.livestock) {
+            if (answer[4] == this.villager) {
+              if (answer[5] == this.risk) {
+                console.log("requirementchecked2");
+                return true;
+
+              }
+            }
+          }
+        }
       }
     }
   }

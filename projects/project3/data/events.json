@@ -40,16 +40,6 @@
         {"description":"Breed moderately"},
         {"description":"We don't need more animals"}
       ]
-    },
-    {
-      "id": "lost puppy",
-      "title": "Straying puppy",
-      "description": "Odd, but it looks rather wolfy…",
-      "options": [
-         {"description": "Send the pup back, very carefully"},
-         {"description": "Keep it as your pet"},
-         {"description": "It's time we reverse the role"}
-      ]
     }
   ],
   "eventLoss": [
@@ -133,6 +123,16 @@
          {"description": "Blessing for a kid"},
          {"description": "Happiness is enough"},
          {"description": "No time for a wedding"}
+      ]
+    },
+    {
+      "id": "lost puppy",
+      "title": "Straying puppy",
+      "description": "Odd, but it looks rather wolfy…",
+      "options": [
+         {"description": "Send the pup back, very carefully"},
+         {"description": "Keep it as your pet"},
+         {"description": "It's time we reverse the role"}
       ]
     }
   ],

@@ -11,10 +11,11 @@ author, and this description to match your project!
 ******************/
 
 const NUM_OPTIONS = 3;
+const NUM_RESOURCES = 6;
 
-//resources = [Wolf's bane, Food, Money, Livestock, Villager, Risk]
+//[Wolf's bane, Food, Money, Livestock, Villager, Risk]
 let resources = [0,2,2,2,2,0];
-let choices = [[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]];
+let answer = [0,0,0,0,0,0];
 let options = [];
 
 let events = {
@@ -61,6 +62,7 @@ function startGame() {
     $('hgroup').remove();
   });
 
+  $('.content').css("display", "block");
 
   $nextRound = $('<div id="nextRound">Next round</div>')
   $('#playground').append($nextRound);
@@ -83,10 +85,14 @@ function dataLoaded(data) {
   $eventWolfsBane = data.eventWolfsBane;
 
   newRound();
+  displayAnswers();
 }
 
 function newRound() {
   $($nextRound).remove();
+
+  answer = [0,0,0,0,0,0];
+  displayAnswers();
 
   //check if there's any event already assigned to this week
   if (events.current.length == 0) {
@@ -94,18 +100,68 @@ function newRound() {
     chooseEvent();
   }
 
+  displayResources();
+
   events.current.assignOptions();
   displayOptions();
+
+  $('.resource').on('click', answerChosen);
 
   changeWeek();
 
   $nextRound = $('<div id="nextRound">Next round</div>')
-  $('#playground').append($nextRound);
+  $('.content').append($nextRound);
   console.log("NEW ROUND" + week);
   week++;
   $($nextRound).on('click', newRound);
 }
 
+function answerChosen() {
+  if ($(this).attr("id") == "resource0") {
+    if (answer[0] < resources[0]) {
+      answer[0]++;
+    }
+  } else if ($(this).attr("id") == "resource1") {
+    if (answer[1] < resources[1]) {
+      answer[1]++;
+    }
+  } else if ($(this).attr("id") == "resource2") {
+    if (answer[2] < resources[2]) {
+      answer[2]++;
+    }
+  } else if ($(this).attr("id") == "resource3") {
+    if (answer[3] < resources[3]) {
+      answer[3]++;
+    }
+  } else if ($(this).attr("id") == "resource4") {
+    if (answer[4] < resources[4]) {
+      answer[4]++;
+    }
+  } else if ($(this).attr("id") == "resource5") {
+    if (answer[5] < resources[5]) {
+      answer[5]++;
+    }
+  }
+  displayAnswers();
+  checkAnswer();
+}
+
+function displayResources() {
+  for (var i = 0; i<NUM_RESOURCES; i++) {
+    $('#resource'+i).remove();
+    let resourceNames = ["Wolf's bane", "Food", "Money", "Livestock", "Villager", "Risk"]
+    let $content = $('<div class="resource" id="resource'+i+'">'+resourceNames[i]+': '+resources[i]+'</div>')
+    $('.resources').append($content);
+  }
+}
+
+function displayAnswers() {
+  for (var i = 0; i<NUM_RESOURCES; i++) {
+    $('#answer'+i).remove();
+    let $content = $('<div class="answer" id="answer'+i+'">'+answer[i]+'</div>');
+    $('.answers').append($content);
+  }
+}
 
 
 function chooseEvent() {
@@ -146,55 +202,31 @@ function changeWeek() {
 
 function displayOptions() {
   for (var i = 0; i<NUM_OPTIONS; i++) {
-    $('#option'+(i+1)).remove();
+    $('#option'+i).remove();
     options[i].display();
   }
 }
 
 function checkAnswer() {
   for (var i = 0; i < 3; i++) {
-    //check if it's a mixed option
-    if (options[i].mixed.foodMoney == 0) {
-      //if not, check every section individually
-      if (answer [0] = option[i].wolfsbane) {
-        if (answer[1] = options[i].food) {
-          if (answer[2] = options[i].money) {
-            if (answer[3] = options[i].livestock) {
-              if (answer[4] = options[i].villager) {
-                if (answer[5] = options[i].risk) {
-                  options[i].fulfilled = true;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    //if it's a money-food mixed requirement, check if the total food and money given by player match the requirement
-    else if (options[i].mixed.foodMoney !== 0) {
-      if (answer[1] + answer[2] == options[i].mixed.foodMoney) {
-        if (answer [0] = option[i].wolfsbane) {
-          if (answer[3] = options[i].livestock) {
-            if (answer[4] = options[i].villager) {
-              if (answer[5] = options[i].risk) {
-                options[i].fulfilled = true;
-              }
-            }
-          }
-        }
-      }
+    options[i].checkOption();
+    if (options[i].fulfilled == true) {
+      $('#option'+i).addClass('fulfilled');
+      displayOptions();
     }
   }
 }
 
 function finalModification() {
-  for (var i = 0; i<6; i++) {
-
+  for (var i = 0; i<NUM_RESOURCES; i++) {
+    let rewardIndex = [rewards.wolfsbane, rewards.food, rewards.money, rewards.livestock, rewards.villager, rewards.risk];
+    resources[i] = resources[i] - answer[i] + rewardIndex[i];
   }
+  console.log("resources = " + resources);
 }
 
 function result(choice) {
-  for (var i = 0; i<resources.length; i++) {
+  for (var i = 0; i<NUM_RESOURCES; i++) {
     resources[i] = resources[i] + choices[choice][i];
   }
   console.log("result " + resources);

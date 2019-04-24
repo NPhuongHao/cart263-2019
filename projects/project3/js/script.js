@@ -19,11 +19,11 @@ let answer = [0,0,0,0,0,0];
 let options = [];
 
 let events = {
-  last2w: [],
-  last1w: [],
-  current: [],
-  next1w: [],
-  next2w: [],
+  last2w: {id: 'none'},
+  last1w: {id: 'none'},
+  current: {id: 'none'},
+  next1w: {id: 'none'},
+  next2w: {id: 'none'},
 };
 
 let $eventGain;
@@ -89,11 +89,13 @@ function dataLoaded(data) {
 }
 
 function newRound() {
+  //check if the current state of resources call for any special event
+  examineSpecialEvent();
   //Update data for the new week's situation
   changeWeek();
+  console.log("WEEKCHANGED" + events.current.id);
   //Move the week variable up to 1 unit
   week++;
-  console.log("NEW ROUND" + week);
 
   //remove the fulfilled class out of the option tags
   for (var i = 0; i<NUM_OPTIONS; i++) {
@@ -108,7 +110,8 @@ function newRound() {
   displayResources();
 
   //check if there's any event already assigned to this week
-  if (events.current.length == 0) {
+  if (events.current.id === 'none') {
+    console.log('chose event');
     //If not, choose a random event
     chooseEvent();
   }
@@ -131,6 +134,7 @@ function newRound() {
 
   //FOR TESTING ONLY!!!! move to the next round if "next round" is clicked
   $($nextRound).off().on('click', newRound);
+
 }
 
 function answerChosen() {
@@ -217,7 +221,6 @@ function displayAnswers() {
   }
 }
 
-
 function chooseEvent() {
   eventRandomizer();
   if (events.last2w.id == events.current.id || events.last1w.id == events.current.id) {
@@ -246,19 +249,61 @@ function eventRandomizer() {
   events.current = new Event(currentCard.id, currentCard.title, currentCard.description, currentCard.options)
 }
 
+function examineSpecialEvent() {
+  let $newEvent = {id: 'none'};
+  //trigger famine card if there's no food
+  if (resources[1] == 0) {
+    $newEvent = $eventSpecial[3];
+  }
+  //trigger cross-town marriage if there's only 1 villager
+  else if (resources[4] == 1) {
+    $newEvent = $eventSpecial[0];
+  }
+  //trigger wolf attack if there's more than 4 risk
+  else if (resources[5] >= 5) {
+    $newEvent = $eventSpecial[2]
+  }
+  //trigger greed if the total number of resources is >15
+  else if (resources[0] + resources[1] + resources[2] + resources[3] + resources[4] + resources[5] > 15) {
+    $newEvent = $eventSpecial[4];
+  }
+  //trigger desperation if the total amount of resources is <4
+  else if (resources[0] + resources[1] + resources[2] + resources[3] + resources[4] + resources[5] < 4) {
+    $newEvent = $eventSpecial[5];
+  }
+  //trigger wolf's bane when 29 weeks have passed
+  else if (week%29 == 0) {
+    $newEvent = $eventWolfsBane[0];
+  }
+  //trigger BIG WOLF when 30 weeks have passed
+  else if (week%30 == 0) {
+    $newEvent = $eventSpecial[6];
+  }
+
+  //if a special event is called for, insert it into next week's event
+  if ($newEvent.id !== 'none') {
+    events.next1w = new Event($newEvent.id, $newEvent.title, $newEvent.description, $newEvent.options);
+  }
+}
+
 function changeWeek() {
   events.last2w = events.last1w;
   events.last1w = events.current;
   events.current = events.next1w;
   events.next1w = events.next2w;
+  events.next2w = {id: 'none'};
 
   console.log("events: "+ events);
 }
 
-
+//displayOptions()
+//
+//display the options corresponding to the current event
 function displayOptions() {
   for (var i = 0; i<NUM_OPTIONS; i++) {
+    //remove the old content
     $('#optionContent'+i).remove();
+    //add the new content
     $('#option'+i).append(options[i].description);
   }
 }

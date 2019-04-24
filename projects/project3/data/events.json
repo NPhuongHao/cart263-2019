@@ -38,7 +38,7 @@
       "options": [
         {"description":"Encourage the breeding"},
         {"description":"Breed moderately"},
-        {"description":"We don't need more animals"}
+        {"description":"Birth control. We don't need more animals"}
       ]
     }
   ],
@@ -192,8 +192,8 @@
       "title": "Desperation",
       "description": "Can't be the mayor of an empty village",
       "options": [
-         {"description": "Hopefully, help came in small portions"},
-         {"description": "You will owe the Wolf for this favor", "warning": "Insert 'Debts for the Wolf' into the next events"},
+         {"description": "Scavenge from any source"},
+         {"description": "You will owe the Wolf a big favor", "warning": "Insert 'Debts for the Wolf' into the next events"},
          {"description": "....Better retire and flee", "warning": "Abandon what remains of your village"}
       ]
     },

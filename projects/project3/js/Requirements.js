@@ -12,6 +12,12 @@ class Requirements {
     //mixed requirements (for an 'xy' element player can place whether x or y)
     //food or money
     this.foodMoney = 0;
+    //livestock or villager
+    this.beastPeople = 0;
+    //any of the cards
+    this.any = 0;
+    //player can choose the according option or not
+    this.choosable = true;
   }
 
   //set amount
@@ -146,18 +152,129 @@ class Requirements {
         this.villager = 1;
       }
     }
+
+    //if the current event is a special event
+    //Special: cross marriage
+    if (this.currentEvent === "cross-town marriage") {
+      // {"description": "Welcome the new spouse"},
+      if (this.option == 0) {
+        this.foodMoney = 2;
+      }
+      // {"description": "Send your blessing, but the couple stay separated"},
+      if (this.option == 1) {
+        this.foodMoney = 1;
+      }
+      // {"description": "Tell the couple to settle elsewhere"}
+      if (this.option == 2) {
+        this.villager = 1;
+      }
+    }
+    //Special: wolf's debts
+    if (this.currentEvent === "wolf's debts") {
+      // {"description": "Offer livestock"},
+      if (this.option == 0) {
+        this.livestock = 3;
+        if (resources[5] > 0) {
+          this.risk = 1;
+        }
+      }
+      // {"description": "Offer villagers"},
+      if (this.option == 1) {
+        this.villager = 2;
+        if (resources[5] > 0) {
+          this.risk = 1;
+        }
+      }
+      // {"description": "There is nothing to offer, still", "warning": "Insert 'Debts for the Wolf' into the next events"}
+    }
+    //Special: wolf attack
+    if (this.currentEvent === "wolf attack") {
+      // {"description": "Let them kill the livestock"},
+      if (this.option == 0) {
+        this.livestock = 3;
+      }
+      // {"description": "Let them kill some villagers"},
+      if (this.option == 1) {
+        this.villager = 2;
+      }
+      // {"description": "Succumb to their claws", "warning": "The wolfs will kill you"}
+    }
+    //Special: famine
+    if (this.currentEvent === "famine") {
+      // {"description": "Buy from the neighbouring village"},
+      if (this.option == 0) {
+        this.money = 3;
+      }
+      // {"description": "There's still the livestock"},
+      if (this.option == 1) {
+        this.livestock = 2;
+      }
+      // {"description": "There're still the...."}
+      if (this.option == 2) {
+        this.villager = 2;
+      }
+    }
+    //Special: greed
+    if (this.currentEvent === "greed") {
+      // {"description": "Send some to The Wolf"},
+      if (this.option == 0) {
+        this.livestock = 2;
+        this.villager = 2;
+        this.food = 1;
+      }
+      // {"description": ""},
+      if (this.option == 1) {
+        this.choosable = false;
+      }
+      // {"description": "Follow the law of nature", "warning": "Discard 5 random cards"}
+      if (this.option == 2) {
+        this.any = 5
+      }
+    }
+    //Special: desperation
+    if (this.currentEvent === "desperation") {
+      // {"description": "Scavenge"},
+      // {"description": "You will owe the Wolf for this favor", "warning": "Insert 'Debts for the Wolf' into the next events"},
+      // {"description": "....Better retire and flee", "warning": "Abandon what remains of your village"}
+    }
+    //Special : BIG WOLF
+    if (this.currentEvent === "BIG WOLF") {
+      // {"description": "Send it your last gift", "warning": "Kill the Big Wolf"},
+      if (this.option == 0) {
+        this.beastPeople = 4;
+        this.wolfsbane = 1;
+      }
+      // {"description": "Sustain the contract for now", "warning": "Continue the contract"},
+      if (this.option == 1) {
+        this.beastPeople = 4;
+      }
+      // {"description": "Beg it to spare your village this time", "warning": "Continue the contract"}
+      if (this.option == 2) {
+        this.any = 1;
+      }
+    }
   }
 
   //check Requirements
   check() {
-    if (this.foodMoney == 0) {
-      if (answer [0] == this.wolfsbane) {
-        if (answer[1] == this.food) {
-          if (answer[2] == this.money) {
-            if (answer[3] == this.livestock) {
-              if (answer[4] == this.villager) {
-                if (answer[5] == this.risk) {
-                  return true;
+    //if the chosen option is un-choos-able
+    //ex: greed's 2nd option
+    if (this.choosable == false) {
+      return false;
+    }
+    //if there's no mixed requirement
+    else if (this.foodMoney == 0) {
+      if (this.beastPeople == 0) {
+        if (this.any == 0) {
+          if (answer [0] == this.wolfsbane) {
+            if (answer[1] == this.food) {
+              if (answer[2] == this.money) {
+                if (answer[3] == this.livestock) {
+                  if (answer[4] == this.villager) {
+                    if (answer[5] == this.risk) {
+                      return true;
+                    }
+                  }
                 }
               }
             }
@@ -165,6 +282,7 @@ class Requirements {
         }
       }
     }
+    //if there's the foodMoney requirement
     else if (this.foodMoney !== 0) {
       if (answer[1] + answer[2] == this.foodMoney) {
         if (answer [0] == this.wolfsbane) {
@@ -179,5 +297,36 @@ class Requirements {
         }
       }
     }
+    //if there's the beastPeople requirement
+    else if (this.beastPeople !== 0) {
+      if (answer[3] + answer[4] == this.beastPeople) {
+        if (answer [0] == this.wolfsbane) {
+          if (answer[1] == this.food) {
+            if (answer[2] == this.money) {
+              if (answer[5] == this.risk) {
+                return true;
+
+              }
+            }
+          }
+        }
+      }
+    }
+    //if there's the 'any' requirement
+    else if (this.any !== 0) {
+      let match = true;
+      //The 'any' requirement takes card away randomly, player doesn't give their own answer
+      for (var i = 0; i<NUM_RESOURCES; i++) {
+        if (answer[i] !== 0) {
+          match = false;
+        }
+      }
+      if (match == true) {
+        //take 5 random cards
+        takeRandomcard();
+        return true;
+      }
+    }
   }
+
 }

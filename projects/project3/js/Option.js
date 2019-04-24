@@ -30,6 +30,10 @@ class Option {
       }
     }
 
+    $('.warning').remove();
+    if (events.current.options[optionCode].warning !== "") {
+      $('#option'+optionCode).append("<div class = 'warning' id = 'warning"+optionCode+"'>"+events.current.options[optionCode].warning+"</div>");
+    }
 
   }
 

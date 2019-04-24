@@ -5,9 +5,9 @@
       "title":"A good week all in all",
       "description": "Bracing yourself for the next trials",
       "options": [
-        {"description":"Keep the coins"},
-        {"description":"Buy more food"},
-        {"description":"Invest on livestock"}
+        {"description":"Keep the coins", "warning": ""},
+        {"description":"Buy more food", "warning": ""},
+        {"description":"Invest on livestock", "warning": ""}
       ]
     },
     {
@@ -15,9 +15,9 @@
       "title": "Collecting more resources",
       "description": "They should thank you for keeping them alive",
       "options": [
-        {"description":"Collect money"},
-        {"description":"Add food in your storage"},
-        {"description":"Let them keep their stuffs for now"}
+        {"description":"Collect money", "warning": ""},
+        {"description":"Add food in your storage", "warning": ""},
+        {"description":"Let them keep their stuffs for now", "warning": ""}
       ]
     },
     {
@@ -25,9 +25,9 @@
       "title": "Harvest season",
       "description":"The weather and your crops are getting along",
       "options":[
-        {"description":"Farm intensively"},
-        {"description":"Farm moderately"},
-        {"description":"Harvesting is not our priority"}
+        {"description":"Farm intensively", "warning": ""},
+        {"description":"Farm moderately", "warning": ""},
+        {"description":"Harvesting is not our priority", "warning": ""}
 
       ]
     },
@@ -36,9 +36,9 @@
       "title": "Breeding season",
       "description":"Your livestock are quite active recently",
       "options": [
-        {"description":"Encourage the breeding"},
-        {"description":"Breed moderately"},
-        {"description":"Birth control. We don't need more animals"}
+        {"description":"Encourage the breeding", "warning": ""},
+        {"description":"Breed moderately", "warning": ""},
+        {"description":"Birth control. We don't need more animals", "warning": ""}
       ]
     }
   ],
@@ -48,9 +48,9 @@
       "title": "Call to arms!",
       "description": "The country demands your sacrifice",
       "options": [
-        {"description":"Fulfill the war bonds"},
-        {"description":"Your people are ready to conscript"},
-        {"description":"'We still have to fight the wolfs'"}
+        {"description":"Fulfill the war bonds", "warning": ""},
+        {"description":"Your people are ready to conscript", "warning": ""},
+        {"description":"'We still have to fight the wolfs'", "warning": ""}
       ]
     },
     {
@@ -58,8 +58,8 @@
       "title": "Demands of the wolfs",
       "description": "They only leave with their due",
       "options": [
-        {"description": "Offer livestock"},
-        {"description": "Offer a villager"},
+        {"description": "Offer livestock", "warning": ""},
+        {"description": "Offer a villager", "warning": ""},
         {"description": "There is nothing to offer", "warning": "Insert 'Debts for the Wolf' into the next events"}
       ]
     },
@@ -68,9 +68,9 @@
       "title": "Food infestation",
       "description": "Something has gone wrong in the food",
       "options": [
-        {"description": "Salvage the rest"},
-        {"description": "Hire a professional"},
-        {"description": "Nothing that cannot be eaten"}
+        {"description": "Salvage the rest", "warning": ""},
+        {"description": "Hire a professional", "warning": ""},
+        {"description": "Nothing that cannot be eaten", "warning": ""}
       ]
     }
   ],
@@ -80,9 +80,9 @@
       "title": "A wandering merchant",
       "description": "Always a generous offer",
       "options": [
-        {"description": "Sell the food"},
-        {"description": "A coin for more supplies"},
-        {"description": "No need for trading right now"}
+        {"description": "Sell the food", "warning": ""},
+        {"description": "A coin for more supplies", "warning": ""},
+        {"description": "No need for trading right now", "warning": ""}
       ]
     },
     {
@@ -90,9 +90,9 @@
       "title": "A wandering merchant",
       "description": "She claims her products to be better than most",
       "options": [
-        {"description": "Sell your 'mediocre' food"},
-        {"description": "Buy her 'good' supplies"},
-        {"description": "No need for trading right now"}
+        {"description": "Sell your 'mediocre' food", "warning": ""},
+        {"description": "Buy her 'good' supplies", "warning": ""},
+        {"description": "No need for trading right now", "warning": ""}
       ]
     },
     {
@@ -100,9 +100,9 @@
       "title": "A wandering farmer",
       "description": "How he can farm while travelling, no one knows",
       "options": [
-        {"description": "Buy a lot of livestock"},
-        {"description": "Just one more beast in your stable"},
-        {"description": "No need for trading right now"}
+        {"description": "Buy a lot of livestock", "warning": ""},
+        {"description": "Just one more beast in your stable", "warning": ""},
+        {"description": "No need for trading right now", "warning": ""}
       ]
     },
     {
@@ -110,9 +110,9 @@
       "title": "A wandering witch",
       "description": "He sells potions of duplication",
       "options": [
-        {"description": "Use them on our livestock"},
-        {"description": "The food might taste a bit funny later"},
-        {"description": "No need for trading right now"}
+        {"description": "Use them on our livestock", "warning": ""},
+        {"description": "The food might taste a bit funny later", "warning": ""},
+        {"description": "No need for trading right now", "warning": ""}
       ]
     },
     {
@@ -120,9 +120,9 @@
       "title": "A local marriage",
       "description": "They ask for your blessing",
       "options": [
-         {"description": "Blessing for a kid"},
-         {"description": "Happiness is enough"},
-         {"description": "No time for a wedding"}
+         {"description": "Blessing for a kid", "warning": ""},
+         {"description": "Happiness is enough", "warning": ""},
+         {"description": "No time for a wedding", "warning": ""}
       ]
     },
     {
@@ -130,9 +130,9 @@
       "title": "Straying puppy",
       "description": "Odd, but it looks rather wolfy…",
       "options": [
-         {"description": "Send the pup back, very carefully"},
-         {"description": "Keep it as your pet"},
-         {"description": "It's time we reverse the role"}
+         {"description": "Send the pup back, very carefully", "warning": ""},
+         {"description": "Keep it as your pet", "warning": ""},
+         {"description": "It's time we reverse the role", "warning": ""}
       ]
     }
   ],
@@ -142,9 +142,9 @@
       "title": "An intervillage marriage",
       "description": "You should have a word or two",
       "options": [
-         {"description": "Welcome the new spouse"},
-         {"description": "Welcome the new spouse, and a blessing for a child"},
-         {"description": "Tell the couple to settle elsewhere"}
+         {"description": "Welcome the new spouse", "warning": ""},
+         {"description": "Welcome the new spouse, and a blessing for a child", "warning": ""},
+         {"description": "Tell the couple to settle elsewhere", "warning": ""}
       ]
     },
     {
@@ -152,8 +152,8 @@
       "title": "Debts for the wolfs",
       "description": "The wolfs ask for their debts, with interests",
       "options": [
-         {"description": "Offer livestock"},
-         {"description": "Offer villagers"},
+         {"description": "Offer livestock", "warning": ""},
+         {"description": "Offer villagers", "warning": ""},
          {"description": "There is nothing to offer, still", "warning": "Insert 'Debts for the Wolf' into the next events"}
       ]
     },
@@ -162,8 +162,8 @@
       "title": "The wolfs attack!",
       "description": "You made them very angry",
       "options": [
-         {"description": "Let them kill the livestock"},
-         {"description": "Let them kill some villagers"},
+         {"description": "Let them kill the livestock", "warning": ""},
+         {"description": "Let them kill some villagers", "warning": ""},
          {"description": "Succumb to their claws", "warning": "The wolfs will kill you"}
       ]
     },
@@ -172,8 +172,8 @@
       "title": "Famine",
       "description": "Your storage has been empty for too long",
       "options": [
-         {"description": "Buy from the neighbouring village"},
-         {"description": "There's still the livestock"},
+         {"description": "Buy from the neighbouring village", "warning": ""},
+         {"description": "There's still the livestock", "warning": ""},
          {"description": "Starve to death", "warning": "Litterally"}
       ]
     },
@@ -182,8 +182,8 @@
       "title": "Greed",
       "description": "You have too much on your plate",
       "options": [
-         {"description": "Send some to The Wolf"},
-         {"description": ""},
+         {"description": "Send some to The Wolf", "warning": ""},
+         {"description": "", "warning": ""},
          {"description": "Follow the law of nature", "warning": "Discard 5 random cards"}
       ]
     },
@@ -192,7 +192,7 @@
       "title": "Desperation",
       "description": "Can't be the mayor of an empty village",
       "options": [
-         {"description": "Scavenge from any source"},
+         {"description": "Scavenge from any source", "warning": ""},
          {"description": "You will owe the Wolf a big favor", "warning": "Insert 'Debts for the Wolf' into the next events"},
          {"description": "....Better retire and flee", "warning": "Abandon what remains of your village"}
       ]
@@ -213,9 +213,9 @@
     "title": "Search for wolf's bane",
     "description": "As its name suggests",
     "options": [
-       {"description": "Buy them from the Witch"},
-       {"description": "Make a risky trip into the woods"},
-       {"description": "Nothing you can do, yet"}
+       {"description": "Buy them from the Witch", "warning": ""},
+       {"description": "Make a risky trip into the woods", "warning": ""},
+       {"description": "Nothing you can do, yet", "warning": ""}
     ]
   }]
 }

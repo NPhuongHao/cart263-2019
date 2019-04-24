@@ -177,7 +177,7 @@ class Rewards {
         this.villager = 2;
       }
       // {"description": "Welcome the new spouse"},
-      if (this.option == 0) {
+      if (this.option == 1) {
         this.villager = 1;
       }
       // {"description": "Tell the couple to settle elsewhere"}

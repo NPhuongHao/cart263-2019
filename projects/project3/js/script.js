@@ -16,7 +16,7 @@ const NUM_RESOURCES = 6;
 //[Wolf's bane, Food, Money, Livestock, Villager, Risk]
 let resources = [0,2,2,2,2,0];
 let answer = [0,0,0,0,0,0];
-let options = [];
+let currentOptions = [];
 
 let events = {
   last2w: {id: 'none'},
@@ -301,7 +301,7 @@ function displayOptions() {
     //remove the old content
     $('#optionContent'+i).remove();
     //add the new content
-    options[i].display(i);
+    currentOptions[i].display(i);
   }
 }
 
@@ -312,10 +312,10 @@ function checkAnswer() {
   for (var i = 0; i < 3; i++) {
     //remove the old stats
     $('#option'+i).removeClass('fulfilled');
-    options[i].fulfilled = false;
+    currentOptions[i].fulfilled = false;
     //use Option's checkOption() to determine if this option has been fulfilled
-    options[i].checkOption();
-    if (options[i].fulfilled == true) {
+    currentOptions[i].checkOption();
+    if (currentOptions[i].fulfilled == true) {
       //add the fulfilled class to the corresponding HTML element
       $('#option'+i).addClass('fulfilled');
     }

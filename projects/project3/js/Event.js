@@ -1,6 +1,6 @@
 class Event {
   // Constructor
-  constructor(id, title, description, options) {
+  constructor(id, title, description, options, warning) {
     this.id = id;
     this.title = title;
     this.description = description;
@@ -9,6 +9,7 @@ class Event {
 
   // assignOption()
   assignOptions() {
+    console.log(this.options);
     //option description
     for (var i = 0; i<3; i++) {
       var $description = $('<div id="optionContent'+i+'">'+ this.options[i].description + '</div>');
@@ -17,9 +18,8 @@ class Event {
       var rewards = new Rewards(currentEvent, i);
       requirements.update();
       rewards.update();
-      options[i] = new Option(requirements, rewards, $description);
+      currentOptions[i] = new Option(requirements, rewards, $description);
     }
-    console.log(options);
 
   }
 

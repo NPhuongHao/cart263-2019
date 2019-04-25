@@ -1,3 +1,12 @@
+/*****************
+
+This is the Rewards class
+
+It specifies each option's wards'.
+Functions: update the option's rewards.
+
+******************/
+
 class Rewards {
   // Constructor
   constructor(currentEvent, option) {

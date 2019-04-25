@@ -89,7 +89,7 @@ hgroup h1, .result {
 
 .options {
   position: absolute;
-  top: 20%;
+  top: 25%;
   left:50%;
   transform: translateX(-50%);
 }
@@ -173,4 +173,11 @@ hgroup h1, .result {
   cursor: pointer;
   top: 10%;
   left: 10%;
+}
+
+.week {
+  position: absolute;
+  cursor: pointer;
+  top: 10%;
+  right: 10%;
 }

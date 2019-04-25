@@ -1,8 +1,19 @@
+/*****************
+
+This is the Requirements class
+
+It specifies each option's requirements'.
+Functions: update the option's requirements. Check if the answer satisfies all the requirements
+
+******************/
+
 class Requirements {
   // Constructor
   constructor(currentEvent, option) {
+    //indicate what event and option this class belongs to
     this.currentEvent = currentEvent;
     this.option = option;
+    //elements of the requirements
     this.wolfsbane = 0;
     this.food = 0;
     this.money = 0;

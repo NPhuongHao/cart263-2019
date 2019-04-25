@@ -10,6 +10,11 @@
 the mayor signed a contract with the Big Wolf, in order to minimize the damage.
   Manage your resources and survive through the weeks, and maybe you'll be able to break the contract!
 
+  BGM: 'Oh Grey Wardens' from Dragon Age: Inquisition,
+    Music and Lyrics by Raney Shockne
+    Guitar: Nick Stoubis
+    Bioware, EA
+
 ******************/
 
 //The amount of available options
@@ -42,7 +47,10 @@ let $eventWolfsBane;
 //variable to count the week/round
 let week = 0;
 
-//FOR SOUND
+//variable to store BGM
+let bgm;
+
+//FOR ending BGM
 //
 //check if the music is played
 let musicIsPlayed = false;
@@ -78,7 +86,14 @@ let melodyIndex = 0;
 $(document).ready(setup);
 
 function setup() {
+
+  //BGM
+  bgm = new Audio('./assets/sounds/BGM.mp3');
+
+  //click to start game
   $('#click-to-begin').on('click', startGame);
+
+  //Ending BGM
   // Create the synth
   synth = new Pizzicato.Sound({
     source: 'wave',
@@ -93,6 +108,11 @@ function setup() {
 
 
 function startGame() {
+
+  //play the BGM
+  bgm.play();
+  bgm.loop = true;
+
   //remove the Click
   $('hgroup').animate({
     opacity: '-=1'
@@ -167,7 +187,6 @@ function newRound() {
 
   //check if there's any event already assigned to this week
   if (events.current.id === 'none') {
-    console.log('chose event');
     //If not, choose a random event
     chooseEvent();
   }
@@ -181,6 +200,9 @@ function newRound() {
   $('.eventSubtitle').remove();
   $('.content').append("<h2 class='eventTitle'>"+events.current.title+"</h2>");
   $('.content').append("<h3 class='eventSubtitle'>"+events.current.description+"</h2>");
+  //Display the week count
+  $('#week').remove();
+  $('.week').append("<p id = 'week'>Week: "+week+"</p>");
   //apply effects
   $( ".eventTitle" ).effect( "slide", "slow", 500);
   $( ".eventSubtitle" ).effect( "slide", "slow", 500);
@@ -198,7 +220,7 @@ function newRound() {
 
   //display instruction on alert if help is clicked on
   $('.help').off().on('click', function() {
-    alert("1. Click on a resource to add one unit on the deck. || 2. Click on the corresponding place in the deck to return one unit.  || 3. Click on an option in red to complete a round.");
+    alert("1. Click on a resource (last row buttons) to add one unit on the deck. || 2. Click on the corresponding place in the deck to return one unit.  || 3. Click on an option in red to complete a round.");
   });
 
   //Update the options' current status on their visual
@@ -215,10 +237,8 @@ function newRound() {
 //
 //Modify the answer according to player's action
 function answerChosen() {
-  console.log("answerChosen");
   //if player clicks on the wolfsbane resource
   if ($(this).attr("id") == "resource0") {
-    console.log('yo');
     //if this resource is > 0
     if (answer[0] < resources[0]) {
       //add 1 unit to the corresponding answer
@@ -327,7 +347,6 @@ function displayOptions() {
 //displayAnswers()
 //
 function displayAnswers() {
-    console.log("displayAnswers"+ answer);
   for (var i = 0; i<NUM_RESOURCES; i++) {
     $('#answerContent'+i).remove();
     let $content = $('<div id="answerContent'+i+'">'+answer[i]+'</div>');
@@ -421,8 +440,6 @@ function changeWeek() {
   events.current = events.next1w;
   events.next1w = events.next2w;
   events.next2w = {id: 'none'};
-
-  console.log("events: "+ events);
 }
 
 //------------------------------------------------------------------------------------------
@@ -446,19 +463,12 @@ function checkAnswer() {
   updateStatus();
 }
 
-// for (var i=0; i<NUM_OPTIONS; i++) {
-//   if ($('#option'+i).hasClass('fulfilled')) {
-//     console.log(i + " fulfilled");
-//   }
-// }
-
 function updateStatus() {
   //check if the current state of resources call for any special event
   examineSpecialEvent();
   //Update options
   for (var i=0; i<NUM_OPTIONS; i++) {
     if ($('#option'+i).hasClass('fulfilled')) {
-      console.log(i + " fulfilled");
       $( "#option"+i ).animate({
           backgroundColor: "#aa0000",
           color: "#fff",
@@ -489,6 +499,10 @@ function gameOver(cond) {
   else if (cond === "lost") {
     $("#playground").append("<div class='result'>You lose</div>");
   }
+
+  //stop the bgm and play the ending bgm
+  bgm.pause();
+  //ending bgm
   if (!musicIsPlayed) {
     // Start an interval for the notes
     setTimeout(playNote,NOTE_TEMPO);

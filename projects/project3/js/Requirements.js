@@ -150,7 +150,6 @@ class Requirements {
           this.villager = Math.floor(2/3*resources[4]);
         }
       }
-      console.log(this);
     }
 
     //if the current event is a wolfsbane event
@@ -326,7 +325,6 @@ class Requirements {
     }
     //if there's the 'any' requirement
     if (this.any > 0) {
-      console.log('too much');
       let match = true;
       //The 'any' requirement takes card away randomly, player doesn't give their own answer
       for (var i = 0; i<NUM_RESOURCES; i++) {

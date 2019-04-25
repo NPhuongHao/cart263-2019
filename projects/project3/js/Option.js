@@ -19,14 +19,14 @@ class Option {
     for (var i = 0; i<this.reqAmount.length; i++) {
       $('.req'+i+'opt'+optionCode).remove();
       if (this.reqAmount[i] > 0) {
-          $('#option'+optionCode).append("<div class='req"+i+"opt"+optionCode+"'>"+this.reqName[i]+" needed: "+this.reqAmount[i]+"</div>");
+          $('#option'+optionCode).append("<div class='modify req"+i+"opt"+optionCode+"'>"+this.reqName[i]+" needed: "+this.reqAmount[i]+"</div>");
       }
     }
 
     for (var i = 0; i<this.rewAmount.length; i++) {
       $('.rew'+i+'opt'+optionCode).remove();
       if (this.rewAmount[i] > 0) {
-          $('#option'+optionCode).append("<div class='rew"+i+"opt"+optionCode+"'> Get "+this.rewName[i]+": "+this.rewAmount[i]+"</div>");
+          $('#option'+optionCode).append("<div class='modify rew"+i+"opt"+optionCode+"'> Get "+this.rewName[i]+": "+this.rewAmount[i]+"</div>");
       }
     }
 

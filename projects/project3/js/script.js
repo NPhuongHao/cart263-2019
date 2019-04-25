@@ -42,9 +42,9 @@ let $eventWolfsBane;
 //variable to count the week/round
 let week = 0;
 
-//FOR TEST ONLY
-let $nextRound;
-
+//FOR SOUND
+//
+//check if the music is played
 let musicIsPlayed = false;
 // Time for one note
 const NOTE_TEMPO = 500
@@ -102,11 +102,7 @@ function startGame() {
 
   //reveal the game's content
   $('.content').css("display", "block");
-
-  //FOR TEST
-  $nextRound = $('<div id="nextRound">Next round</div>')
-  $('#playground').append($nextRound);
-  $nextRound.animate({
+  $('.content').animate({
     opacity: '+=1'
   },1000);
 
@@ -152,25 +148,22 @@ function dataLoaded(data) {
 //
 //call a new round
 function newRound() {
-  //check if the current state of resources call for any special event
-  examineSpecialEvent();
+
   //Update data for the new week's situation
   changeWeek();
-  console.log("WEEKCHANGED" + events.current.id);
   //Move the week variable up to 1 unit
   week++;
-
-  //remove the fulfilled class out of the option tags
-  for (var i = 0; i<NUM_OPTIONS; i++) {
-    $('#option'+i).removeClass("fulfilled");
-  }
-
   //reset answer to 0
   answer = [0,0,0,0,0,0];
   //Display this new answer
   displayAnswers();
   //Display player's current resources
   displayResources();
+
+  //remove the fulfilled class out of the option tags
+  for (var i = 0; i<NUM_OPTIONS; i++) {
+    $('#option'+i).removeClass("fulfilled");
+  }
 
   //check if there's any event already assigned to this week
   if (events.current.id === 'none') {
@@ -185,7 +178,12 @@ function newRound() {
   displayOptions();
   //Display the new title
   $('.eventTitle').remove();
+  $('.eventSubtitle').remove();
   $('.content').append("<h2 class='eventTitle'>"+events.current.title+"</h2>");
+  $('.content').append("<h3 class='eventSubtitle'>"+events.current.description+"</h2>");
+  //apply effects
+  $( ".eventTitle" ).effect( "slide", "slow", 500);
+  $( ".eventSubtitle" ).effect( "slide", "slow", 500);
   //check if there is already an available option
   checkAnswer();
 
@@ -198,8 +196,13 @@ function newRound() {
   //Trigger if player clicks on a type of answer
   $('.answer').off().on('click', answerModify);
 
-  //FOR TESTING ONLY!!!! move to the next round if "next round" is clicked
-  $($nextRound).off().on('click', newRound);
+  //display instruction on alert if help is clicked on
+  $('.help').off().on('click', function() {
+    alert("1. Click on a resource to add one unit on the deck. || 2. Click on the corresponding place in the deck to return one unit.  || 3. Click on an option in red to complete a round.");
+  });
+
+  //Update the options' current status on their visual
+  updateStatus();
 
 }
 
@@ -212,8 +215,10 @@ function newRound() {
 //
 //Modify the answer according to player's action
 function answerChosen() {
+  console.log("answerChosen");
   //if player clicks on the wolfsbane resource
   if ($(this).attr("id") == "resource0") {
+    console.log('yo');
     //if this resource is > 0
     if (answer[0] < resources[0]) {
       //add 1 unit to the corresponding answer
@@ -250,8 +255,9 @@ function answerChosen() {
       answer[5]++;
     }
   }
-  displayAnswers();
   checkAnswer();
+  displayAnswers();
+
 }
 
 //answerChosen
@@ -297,12 +303,11 @@ function answerModify() {
 //
 function displayResources() {
   //variables to store the resources' name
-  let resourceNames = ["Wolf's bane", "Food", "Money", "Livestock", "Villager", "Risk"]
   for (var i = 0; i<NUM_RESOURCES; i++) {
     //Remove the old resource status
     $('#resource'+i).remove();
     //append the corresponding element into the resources HTML element
-    let $content = $('<div class="resource" id="resource'+i+'">'+resourceNames[i]+': '+resources[i]+'</div>')
+    let $content = $('<div class="resource" id="resource'+i+'">'+resources[i]+'</div>')
     $('.resources').append($content);
   }
 }
@@ -322,6 +327,7 @@ function displayOptions() {
 //displayAnswers()
 //
 function displayAnswers() {
+    console.log("displayAnswers"+ answer);
   for (var i = 0; i<NUM_RESOURCES; i++) {
     $('#answerContent'+i).remove();
     let $content = $('<div id="answerContent'+i+'">'+answer[i]+'</div>');
@@ -437,6 +443,33 @@ function checkAnswer() {
       $('#option'+i).addClass('fulfilled');
     }
   }
+  updateStatus();
+}
+
+// for (var i=0; i<NUM_OPTIONS; i++) {
+//   if ($('#option'+i).hasClass('fulfilled')) {
+//     console.log(i + " fulfilled");
+//   }
+// }
+
+function updateStatus() {
+  //check if the current state of resources call for any special event
+  examineSpecialEvent();
+  //Update options
+  for (var i=0; i<NUM_OPTIONS; i++) {
+    if ($('#option'+i).hasClass('fulfilled')) {
+      console.log(i + " fulfilled");
+      $( "#option"+i ).animate({
+          backgroundColor: "#aa0000",
+          color: "#fff",
+        }, 1000 );
+    } else {
+      $( "#option"+i ).animate({
+          backgroundColor: "#000",
+          color: "#fff",
+        }, 1000 );
+    }
+  }
 }
 
 //------------------------------------------------------------------------------------------
@@ -448,8 +481,6 @@ function checkAnswer() {
 function gameOver(cond) {
   //remove the content
   $(".content").remove();
-  //FORTEST
-  $nextRound.remove();
   //If the game is won
   if (cond === "won") {
     $("#playground").append("<div class='result'>You win</div>");

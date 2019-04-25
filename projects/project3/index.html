@@ -31,13 +31,20 @@
   <script src="js/Option.js"></script>
   <script src="js/Event.js"></script>
   <script src="js/script.js"></script>
+
+  <!--Fonts-->
+  <link href="https://fonts.googleapis.com/css?family=PT+Mono|Seaweed+Script" rel="stylesheet">
 </head>
 
 <body>
   <div id="playground">
     <hgroup>
-      <h2 id="title">MAYORING</h2>
-      <p id="click-to-begin">Click here to begin</p>
+      <h1 id="title">MAYORING</h1>
+      <p id="click-to-begin">START</p>
+      <p id="instruction">A card game based on the gameplay of Spoopy Squad's Underhand.
+      <br><br>In this game, you play as the mayor of a small village near the forest. Pressured by wars and the wolfs nearby,
+    the mayor signed a contract with the Big Wolf, in order to minimize the damage. Each 30 weeks, the Big Wolf will come ask for its due.<br><br>
+      Manage your resources and survive through the weeks, and maybe you'll be able to break the contract!</p>
     </hgroup>
 
     <div class = "content">
@@ -49,6 +56,14 @@
 
       <div class="resources">
       </div>
+      <div class="resources-name">
+        <p class="resource-name">Wolf's bane</p>
+        <p class="resource-name">Food</p>
+        <p class="resource-name">Money</p>
+        <p class="resource-name">Livestock</p>
+        <p class="resource-name">Villager</p>
+        <p class="resource-name">Risk</p>
+      </div>
 
       <div class="answers">
         <div class="answer" id ="answer0"></div>
@@ -58,8 +73,13 @@
         <div class="answer" id ="answer4"></div>
         <div class="answer" id ="answer5"></div>
       </div>
+      <div class="help">Help</div>
+      <div class="week">
+
+      </div>
     </div>
   </div>
+
 </body>
 
 </html>

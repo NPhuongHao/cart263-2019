@@ -9,6 +9,8 @@ body {
   padding: 0;
   background-color: black;
   box-sizing: border-box;
+  font-size: 16px;
+  font-family: 'PT Mono', monospace;
 }
 
 #playground {
@@ -31,7 +33,29 @@ body {
   z-index: 99999;
 }
 
+hgroup h1, .result {
+  font-family: 'Seaweed Script', cursive;
+  font-size: 500%;
+}
+
+#click-to-begin {
+  cursor: pointer;
+  background-color: black;
+  color: white;
+  padding: 5px;
+  font-family: 'Seaweed Script', cursive;
+  font-size: 130%;
+}
+
+#instruction {
+  width: 600px;
+  margin: auto;
+  padding-top: 30px;
+  line-height: 24px;
+}
+
 .content {
+  opacity: 0;
   text-align: center;
   display: none;
   position: absolute;
@@ -42,6 +66,27 @@ body {
   height: 100%;
 }
 
+.option, .resource, .answer {
+  cursor: pointer;
+}
+
+.modify {
+  font-size: 10px;
+  margin-top: 5px;
+}
+
+.warning {
+  font-size: 12px;
+  font-style: italic;
+  margin-top: 10px;
+}
+
+.eventTitle {
+  margin-top: 50px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
 .options {
   position: absolute;
   top: 20%;
@@ -49,24 +94,42 @@ body {
   transform: translateX(-50%);
 }
 
-.resources, .answers {
+.resources, .resources-name, .answers {
   position: absolute;
-  top: 60%;
+  top: 70%;
   left: 50%;
   transform: translateX(-50%);
-  width: 100%;
+  width: 70%;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .answers {
-  top: 50%;
+  top: 55%;
 }
 
-.resource, .answer {
+.resources-name {
+  top: 82%;
+}
+
+
+.resource, .resource-name, .answer {
   display: inline-block;
   text-align: center;
-  background-color: grey;
-  width: 100px;
+  height: 30px;
   margin: 10px;
+  width: 15%;
+  max-width: 15%;
+  transition: all .5s;
+}
+
+.resource {
+  padding-bottom: 10px;
+  padding-top: 20px;
+  background-color: #555;
+  color: white;
+  border-radius: 5px;
 }
 
 #nextRound {
@@ -76,22 +139,26 @@ body {
   transform: translateX(-50%);
 }
 
-.fulfilled {
-  color: red;
-  background-color: black;
-}
-
 .options {
-  width: 720px;
-  background-color: grey;
+  width: 800px;
   text-align: center;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .option {
   display: inline-block;
-  float: left;
   margin: 20px;
+  padding: 10px;
   width: 200px;
   height: 100px;
+  background-color: black;
+  color: white;
+  border-radius: 10px;
+}
+
+.resource:hover {
+  background-color: #777;
 }
 
 .result {
@@ -99,4 +166,11 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
+}
+
+.help {
+  position: absolute;
+  cursor: pointer;
+  top: 10%;
+  left: 10%;
 }

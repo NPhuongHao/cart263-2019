@@ -1,5 +1,4 @@
-MAYORING
-Nguyen Phuong Hao
+MAYORING || Nguyen Phuong Hao
 
 For this final project, I was looking for an idea that can harmonize between my interests in video games and my capacity to handle more complex coding. While I was studying different mechanisms, I have stumbled upon Spoopy Squad's Underhand, a strategy card game where player handles different resources in order to reach an end goal. Underhand's mechanism is fascinating in its apparent simplicity, all the while involving flexible mathematical/statistical calculation. For that reason, I became interested in figuring out its functioning and apply it into another setting. Thus, MAYORING is born.
 

@@ -45,13 +45,52 @@ let week = 0;
 //FOR TEST ONLY
 let $nextRound;
 
+let musicIsPlayed = false;
+// Time for one note
+const NOTE_TEMPO = 500
+// Attack time for a note (in seconds) = fadeIn
+const ATTACK = 0.1;
+// Release time for a note (in seconds) = fadeOut
+const RELEASE = 0.1;
+// The length of a sequence during which the synth is played (including the pause)
+const SEQUENCE_LENGTH = 8;
+// We need an array of the possible notes to play as frequencies (in Hz)
+// C Major = C, D, E, F, G, A, and B.
+// We can get the frequencies of these notes from THE INTERNET, e.g.
+// http://pages.mtu.edu/~suits/notefreqs.html
+let frequencies = [
+  261.63,293.66,329.63,349.23,392.00,440.00,493.88,523.25,587.33,659.25,698.46,783.99,880.00,987.77
+];
+let melody = [
+  "A4x", "B4", "C5", "B4x", "o", "o", "A4x", "B4", "C5", "B4", "o", "o", "C5", "D5", "E5x", "F5", "E5",
+  "D5", "B4", "G4", "A4", "C5", "B4", "A4x", "o", "o", "A4x", "B4", "C5", "B4x", "o", "o", "C5x", "D5",
+  "C5", "B4", "o", "o", "C5y", "D5y", "E5y", "F5y", "E5y", "D5y", "E5y", "C5y", "D5", "B4", "G4", "A4",
+  "C5", "B4", "A4x", "o", "o"
+];
+// The synth
+let synth;
+// The distance between the last pause and the current note
+let rhythmIndex = 0;
+let melodyIndex = 0;
+
 
 //Setup the program
 $(document).ready(setup);
 
 function setup() {
   $('#click-to-begin').on('click', startGame);
+  // Create the synth
+  synth = new Pizzicato.Sound({
+    source: 'wave',
+    options: {
+      type: 'sine',
+      attack: ATTACK,
+      release: RELEASE,
+      frequency: 220
+    }
+  });
 }
+
 
 function startGame() {
   //remove the Click
@@ -224,9 +263,9 @@ function optionChosen() {
     if ($(this).attr('id') == "option"+i){
       if ($(this).hasClass("fulfilled")) {
         //check if this option triggers any special event
-        options[i].checkforSpecial();
+        currentOptions[i].checkforSpecial();
         //update the resources accordingly
-        options[i].updateResource();
+        currentOptions[i].updateResource();
         //call for a new round
         newRound();
       }
@@ -419,6 +458,12 @@ function gameOver(cond) {
   else if (cond === "lost") {
     $("#playground").append("<div class='result'>You lose</div>");
   }
+  if (!musicIsPlayed) {
+    // Start an interval for the notes
+    setTimeout(playNote,NOTE_TEMPO);
+    //set the boolean value to true
+    musicIsPlayed = true;
+  }
 }
 
 //------------------------------------------------------------------------------------------
@@ -430,4 +475,61 @@ function gameOver(cond) {
 //limit a value between a range
 function range(val, min, max) {
     return Math.min(Math.max(val, min), max);
+}
+
+// playNote
+//
+// Chooses a random frequency and assigns it to the synth
+function playNote() {
+  let symbols = melody[melodyIndex];
+  let noteDuration = NOTE_TEMPO;
+  let frequency;
+  if (symbols.indexOf("o") !== -1) {
+    synth.pause();
+  } else {
+    if (symbols.indexOf("C4") !== -1) {
+      frequency = frequencies[0];
+    } if (symbols.indexOf("D4") !== -1) {
+      frequency = frequencies[1];
+    } if (symbols.indexOf("E4") !== -1) {
+      frequency = frequencies[2];
+    } if (symbols.indexOf("F4") !== -1) {
+      frequency = frequencies[3];
+    } if (symbols.indexOf("G4") !== -1) {
+      frequency = frequencies[4];
+    } if (symbols.indexOf("A4") !== -1) {
+      frequency = frequencies[5];
+    } if (symbols.indexOf("B4") !== -1) {
+      frequency = frequencies[6];
+    } if (symbols.indexOf("C5") !== -1) {
+      frequency = frequencies[7];
+    } if (symbols.indexOf("D5") !== -1) {
+      frequency = frequencies[8];
+    } if (symbols.indexOf("E5") !== -1) {
+      frequency = frequencies[9];
+    } if (symbols.indexOf("F5") !== -1) {
+      frequency = frequencies[10];
+    } if (symbols.indexOf("G5") !== -1) {
+      frequency = frequencies[11];
+    } if (symbols.indexOf("A5") !== -1) {
+      frequency = frequencies[12];
+    } if (symbols.indexOf("B5") !== -1) {
+      frequency = frequencies[13];
+    }
+    if (symbols.indexOf("x") !== -1) {
+      noteDuration = NOTE_TEMPO*1.5;
+    } if (symbols.indexOf("y") !== -1) {
+      noteDuration = NOTE_TEMPO*0.5;
+    }
+    // Set the synth's frequency
+    synth.frequency = frequency;
+    synth.play();
+  }
+
+
+  //Advance the rhythmIndex by 1 unit
+  rhythmIndex = (rhythmIndex + 1) % SEQUENCE_LENGTH;
+  melodyIndex = (melodyIndex + 1) % melody.length;
+  //Play another note with different duration
+  setTimeout(playNote,noteDuration);
 }

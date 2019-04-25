@@ -26,7 +26,7 @@ class Event {
       //assign a set of requirements for this option
       var requirements = new Requirements(currentEventId, i);
       //assign a set of rewards for this option
-      var rewards = new Rewards(currentEvent, i);
+      var rewards = new Rewards(currentEventId, i);
       //udpate the requiremetns
       requirements.update();
       //update the rewards

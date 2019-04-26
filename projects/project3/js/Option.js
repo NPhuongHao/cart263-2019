@@ -110,6 +110,7 @@ class Option {
         resources[i] = resources[i] - answer[i] + this.rewAmount[i];
       }
     }
+    console.log("resources " + resources);
   }
 
   //takeRandomcard()

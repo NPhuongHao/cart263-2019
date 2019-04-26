@@ -168,6 +168,7 @@ function dataLoaded(data) {
 //
 //call a new round
 function newRound() {
+  console.log("round " + week);
 
   //Update data for the new week's situation
   changeWeek();
@@ -203,6 +204,10 @@ function newRound() {
   //Display the week count
   $('#week').remove();
   $('.week').append("<p id = 'week'>Week: "+week+"</p>");
+  //Display the total amount of cards
+  let totalCards = resources[0]+resources[1]+resources[2]+resources[3]+resources[4]+resources[5];
+  $('#cards').remove();
+  $('.content').append('<p id = "cards">Cards: '+totalCards+'</p>');
   //apply effects
   $( ".eventTitle" ).effect( "slide", "slow", 500);
   $( ".eventSubtitle" ).effect( "slide", "slow", 500);
@@ -222,10 +227,6 @@ function newRound() {
   $('.help').off().on('click', function() {
     alert("1. Click on a resource (last row buttons) to add one unit on the deck. || 2. Click on the corresponding place in the deck to return one unit.  || 3. Click on an option in red to complete a round.");
   });
-
-  //Update the options' current status on their visual
-  updateStatus();
-
 }
 
 
@@ -292,6 +293,8 @@ function optionChosen() {
         currentOptions[i].checkforSpecial();
         //update the resources accordingly
         currentOptions[i].updateResource();
+        //check if the current state of resources call for any special event
+        examineSpecialEvent();
         //call for a new round
         newRound();
       }
@@ -395,14 +398,17 @@ function eventRandomizer() {
 //
 //check if the current resources status calls for any special event
 function examineSpecialEvent() {
+  console.log("check special")
   let $newEvent = {id: 'none'};
   //trigger famine card if there's no food
   if (resources[1] == 0) {
+    console.log("famine");
     $newEvent = $eventSpecial[3];
   }
   //trigger cross-town marriage if there's only 1 villager
   else if (resources[4] == 1) {
     $newEvent = $eventSpecial[0];
+    console.log("marriage");
   }
   //trigger wolf attack if there's more than 4 risk
   else if (resources[5] >= 5) {
@@ -460,12 +466,11 @@ function checkAnswer() {
       $('#option'+i).addClass('fulfilled');
     }
   }
+  //update the option's currentstatus
   updateStatus();
 }
 
 function updateStatus() {
-  //check if the current state of resources call for any special event
-  examineSpecialEvent();
   //Update options
   for (var i=0; i<NUM_OPTIONS; i++) {
     if ($('#option'+i).hasClass('fulfilled')) {

@@ -142,8 +142,8 @@
       "title": "An intervillage marriage",
       "description": "You should have a word or two",
       "options": [
-         {"description": "Welcome the new spouse", "warning": ""},
          {"description": "Welcome the new spouse, and a blessing for a child", "warning": ""},
+         {"description": "Welcome the new spouse", "warning": ""},
          {"description": "Tell the couple to settle elsewhere", "warning": ""}
       ]
     },

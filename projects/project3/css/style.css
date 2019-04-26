@@ -94,6 +94,13 @@ hgroup h1, .result {
   transform: translateX(-50%);
 }
 
+#cards {
+  position: absolute;
+  top: 90%;
+  left:50%;
+  transform: translateX(-50%);
+}
+
 .resources, .resources-name, .answers {
   position: absolute;
   top: 70%;

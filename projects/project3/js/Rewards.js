@@ -222,7 +222,7 @@ class Rewards {
       }
       // {"description": "Starve"}
       if (this.option == 2) {
-        this.eventSpecial = "game lost"
+        this.eventSpecial = "game lose";
       }
     }
     //Special: greed

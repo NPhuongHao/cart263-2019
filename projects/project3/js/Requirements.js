@@ -133,7 +133,7 @@ class Requirements {
           //ask for no food if player doesn't have any food card
           this.food = 0;
         } else {
-          this.food = Math.floor(2/3*resources[1]);
+          this.food = resources[1] - 2;
         }
       } else if (this.option == 1) {
         // {"description": "Hire a professional"},
@@ -294,7 +294,7 @@ class Requirements {
       }
     }
     //if there's the foodMoney requirement
-    else if (this.foodMoney !== 0) {
+    if (this.foodMoney !== 0) {
       if (answer[1] + answer[2] == this.foodMoney) {
         if (answer [0] == this.wolfsbane) {
           if (answer[3] == this.livestock) {
@@ -309,14 +309,14 @@ class Requirements {
       }
     }
     //if there's the beastPeople requirement
-    else if (this.beastPeople !== 0) {
+    if (this.beastPeople > 0) {
+      console.log("beastPeople");
       if (answer[3] + answer[4] == this.beastPeople) {
         if (answer [0] == this.wolfsbane) {
           if (answer[1] == this.food) {
             if (answer[2] == this.money) {
               if (answer[5] == this.risk) {
                 return true;
-
               }
             }
           }
